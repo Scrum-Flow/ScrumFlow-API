@@ -1,4 +1,4 @@
-package com.scrumflow.api.infrastructure;
+package com.scrumflow.api.infrastructure.config;
 
 import com.scrumflow.api.infrastructure.security.CustomUserDetailsService;
 import com.scrumflow.api.infrastructure.security.SecurityFilter;
@@ -32,9 +32,9 @@ public class SecurityConfiguration
     {
         http.csrf( AbstractHttpConfigurer::disable )
             .sessionManagement( session -> session.sessionCreationPolicy( SessionCreationPolicy.STATELESS ) )
-            .authorizeRequests( requests -> requests.requestMatchers( HttpMethod.POST, "/auth/login" ).permitAll()
-                                                    .requestMatchers( HttpMethod.POST, "/auth/register" ).permitAll() 
-                                                    .anyRequest().authenticated()
+            .authorizeHttpRequests( requests -> requests.requestMatchers( HttpMethod.POST, "/auth/login" ).permitAll()
+                                                        .requestMatchers( HttpMethod.POST, "/auth/register" ).permitAll() 
+                                                        .anyRequest().authenticated()
                               )
             .addFilterBefore( securityFilter, UsernamePasswordAuthenticationFilter.class );
         
