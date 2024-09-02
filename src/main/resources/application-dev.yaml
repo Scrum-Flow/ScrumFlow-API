@@ -1,6 +1,6 @@
 server:
   port:
-  
+
 spring:
   application:
     name: ScrumFlow
@@ -12,7 +12,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-      
 api:
   security:
-    token_secret: 
+    token_secret:

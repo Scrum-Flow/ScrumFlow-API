@@ -1,4 +1,4 @@
-package com.scrumflow.api.infrastructure.repository;
+package com.scrumflow.api.repositories;
 
 import com.scrumflow.api.domain.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
