@@ -1,0 +1,18 @@
+server:
+  port:
+  
+spring:
+  application:
+    name: ScrumFlow
+  datasource:
+    url:
+    username:
+    password:
+    driver-class-name:
+  jpa:
+    hibernate:
+      ddl-auto: update
+      
+api:
+  security:
+    token_secret: 
