@@ -27,7 +27,7 @@ public class User
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @Column(unique = true)
+    @Column(unique = true) 
     @NotNull
     @Email
     private String email;

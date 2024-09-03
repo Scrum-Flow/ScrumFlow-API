@@ -7,4 +7,4 @@ CREATE TABLE users
     dt_created DATETIME NOT NULL,
     active INT NOT NULL,
     PRIMARY KEY ( id )
-);
+); 

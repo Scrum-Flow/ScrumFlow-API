@@ -1,5 +1,5 @@
 server:
-  port: 9010
+  port:
 
 spring:
   application:
@@ -11,7 +11,13 @@ spring:
     driver-class-name:
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
+  flyway:
+    baseline-on-migrate: true
+    enabled: true
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
 api:
   security:
     token_secret:
+    
