@@ -1,0 +1,23 @@
+server:
+  port:
+
+spring:
+  application:
+    name: ScrumFlow
+  datasource:
+    url:
+    username:
+    password:
+    driver-class-name:
+  jpa:
+    hibernate:
+      ddl-auto: none
+  flyway:
+    baseline-on-migrate: true
+    enabled: true
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+api:
+  security:
+    token_secret:
+    
