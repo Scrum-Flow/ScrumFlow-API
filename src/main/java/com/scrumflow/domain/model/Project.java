@@ -1,35 +1,39 @@
 package com.scrumflow.domain.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "user")
+@Table(name = "project")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 255)
     private String name;
 
-    @Column(unique = true)
-    @NotNull
-    @Email
-    private String email;
+    @Column(columnDefinition = "TEXT")
+    private String description;
 
-    private String password;
+    @Column(name = "start_date", nullable = false)
+    @Temporal(TemporalType.DATE)
+    private LocalDate startDate;
+
+    @Column(name = "end_date", nullable = false)
+    @Temporal(TemporalType.DATE)
+    private LocalDate endDate;
 
     @Column(
             name = "created_at",
@@ -41,17 +45,4 @@ public class User {
             name = "updated_at",
             columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
-
-    private Boolean active = true;
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
 }

@@ -1,14 +1,13 @@
 package com.scrumflow.application.web.auth;
 
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.scrumflow.application.dto.request.JWTResponseDTO;
 import com.scrumflow.application.dto.request.LoginRequestDTO;
 import com.scrumflow.application.dto.request.RegisterRequestDTO;
+import com.scrumflow.application.dto.response.JWTResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -18,9 +17,9 @@ public interface AuthApi {
 
     @Operation(description = "Realizar login no sistema")
     @PostMapping("/login")
-    ResponseEntity<JWTResponseDTO> login(@RequestBody LoginRequestDTO body);
+    JWTResponseDTO login(@RequestBody LoginRequestDTO body);
 
     @Operation(description = "Realizar cadastro no sistema")
     @PostMapping("/register")
-    ResponseEntity<JWTResponseDTO> register(@RequestBody RegisterRequestDTO body);
+    JWTResponseDTO register(@RequestBody RegisterRequestDTO body);
 }

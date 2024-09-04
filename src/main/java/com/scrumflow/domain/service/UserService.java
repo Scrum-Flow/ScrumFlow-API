@@ -2,10 +2,10 @@ package com.scrumflow.domain.service;
 
 import java.util.Optional;
 
+import com.scrumflow.application.dto.response.JWTResponseDTO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.scrumflow.application.dto.request.JWTResponseDTO;
 import com.scrumflow.application.dto.request.LoginRequestDTO;
 import com.scrumflow.application.dto.request.RegisterRequestDTO;
 import com.scrumflow.domain.exception.InvalidCredentialsException;

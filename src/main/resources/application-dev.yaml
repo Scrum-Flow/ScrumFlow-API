@@ -1,6 +1,12 @@
 server:
   port:
 
+info:
+  app:
+    name: ScrumFlow
+    description: Sistema de Gerenciamento de Scrum
+    version: 1.0.0
+
 spring:
   application:
     name: ScrumFlow
