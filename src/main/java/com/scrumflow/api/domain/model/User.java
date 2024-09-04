@@ -1,6 +1,4 @@
-package com.scrumflow.domain.model;
-
-import java.time.LocalDateTime;
+package com.scrumflow.api.domain.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,26 +13,26 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "users")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class User 
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
-
-    @Column(unique = true)
+    @Column(unique = true) 
     @NotNull
     @Email
     private String email;
-
     private String password;
-    private LocalDateTime dtCreated = LocalDateTime.now();
-
+    private LocalDateTime dt_created = LocalDateTime.now();
+    
     private boolean active = true;
 }
