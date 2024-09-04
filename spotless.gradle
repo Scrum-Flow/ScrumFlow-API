@@ -1,0 +1,13 @@
+spotless {
+  java {
+    target fileTree('.') {
+      include '**/*.java'
+      exclude '**/build/**', '**/build-*/**'
+    }
+    googleJavaFormat('1.22.0')
+    indentWithTabs(2)
+    indentWithSpaces(4)
+    removeUnusedImports()
+    importOrder('java|javax', 'org.spring|org.springframework', '', 'br.jus.pdpj.jusprec', 'br.jus.pdpj.sispreq')
+  }
+}
