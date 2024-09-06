@@ -1,23 +1,23 @@
 server:
-  port: ${SERVER_PORT:9000}
+  port:
 
 spring:
   application:
     name: ScrumFlow
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/scrumflow?allowPublicKeyRetrieval=true&useSSL=false}
-    username: ${SPRING_DATASOURCE_USERNAME:admin}
-    password: ${SPRING_DATASOURCE_PASSWORD:admin}
-    driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME:com.mysql.cj.jdbc.Driver}
+    url:
+    username:
+    password:
+    driver-class-name:
   jpa:
     hibernate:
       ddl-auto: none
   flyway:
     baseline-on-migrate: true
     enabled: true
-    user: ${SPRING_DATASOURCE_USERNAME:admin}
-    password: ${SPRING_DATASOURCE_PASSWORD:admin}
+    user:
+    password:
 
 api:
   security:
-    token_secret: ${API_SECURITY_TOKEN_SECRET:token}
+    token_secret:

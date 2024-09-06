@@ -2,7 +2,6 @@ package com.scrumflow.infrastructure.config.security;
 
 import java.util.ArrayList;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.scrumflow.domain.model.User;
 import com.scrumflow.infrastructure.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor

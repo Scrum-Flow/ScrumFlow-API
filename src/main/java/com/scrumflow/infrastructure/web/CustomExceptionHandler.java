@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.scrumflow.application.dto.response.ApiErrorMessage;
 import com.scrumflow.domain.exception.BusinessException;
+import com.scrumflow.domain.exception.InvalidCredentialsException;
 import com.scrumflow.domain.exception.NotFoundException;
 
 @ControllerAdvice
@@ -31,6 +32,13 @@ public class CustomExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex) {
+        var apiErrorMessage =
+                new ApiErrorMessage(HttpStatus.FORBIDDEN.value(), List.of(ex.getMessage()));
+        return new ResponseEntity<>(apiErrorMessage, HttpStatus.valueOf(apiErrorMessage.getStatus()));
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<Object> handleAccessDeniedException(InvalidCredentialsException ex) {
         var apiErrorMessage =
                 new ApiErrorMessage(HttpStatus.FORBIDDEN.value(), List.of(ex.getMessage()));
         return new ResponseEntity<>(apiErrorMessage, HttpStatus.valueOf(apiErrorMessage.getStatus()));
