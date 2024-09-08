@@ -5,9 +5,9 @@ import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.scrumflow.application.dto.request.JWTResponseDTO;
 import com.scrumflow.application.dto.request.LoginRequestDTO;
 import com.scrumflow.application.dto.request.RegisterRequestDTO;
+import com.scrumflow.application.dto.response.JWTResponseDTO;
 import com.scrumflow.domain.exception.InvalidCredentialsException;
 import com.scrumflow.domain.model.User;
 import com.scrumflow.infrastructure.config.security.TokenService;

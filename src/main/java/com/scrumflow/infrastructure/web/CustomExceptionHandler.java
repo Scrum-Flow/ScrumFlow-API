@@ -37,6 +37,13 @@ public class CustomExceptionHandler {
         return new ResponseEntity<>(apiErrorMessage, HttpStatus.valueOf(apiErrorMessage.getStatus()));
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Object> handleRuntimeException(RuntimeException ex) {
+        var apiErrorMessage =
+                new ApiErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR.value(), List.of(ex.getMessage()));
+        return new ResponseEntity<>(apiErrorMessage, HttpStatus.valueOf(apiErrorMessage.getStatus()));
+    }
+
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<Object> handleAccessDeniedException(InvalidCredentialsException ex) {
         var apiErrorMessage =
