@@ -4,16 +4,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "project")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class Project {
 
@@ -38,11 +34,31 @@ public class Project {
     @Column(
             name = "created_at",
             updatable = false,
+            insertable = false,
             columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
     @Column(
             name = "updated_at",
+            insertable = false,
+            updatable = false,
             columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
+
+    private Boolean active;
+
+    public Project(
+            Long id,
+            String name,
+            String description,
+            LocalDate startDate,
+            LocalDate endDate,
+            Boolean active) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.active = active;
+    }
 }

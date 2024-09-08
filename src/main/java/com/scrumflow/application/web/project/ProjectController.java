@@ -29,4 +29,14 @@ public class ProjectController implements ProjectApi {
     public ProjectResponseDTO findProjectById(Long projectId) {
         return projectService.findProjectById(projectId);
     }
+
+    @Override
+    public void updateProject(Long projectId, ProjectRequestDTO projectRequestDTO) {
+        projectService.updateProject(projectId, projectRequestDTO);
+    }
+
+    @Override
+    public void deleteProject(Long projectId) {
+        projectService.deleteProject(projectId);
+    }
 }

@@ -10,6 +10,7 @@ import com.scrumflow.application.dto.response.ProjectResponseDTO;
 import com.scrumflow.domain.exception.BusinessException;
 import com.scrumflow.domain.exception.NotFoundException;
 import com.scrumflow.domain.mapper.ProjectMapper;
+import com.scrumflow.domain.model.Project;
 import com.scrumflow.infrastructure.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
@@ -27,6 +28,36 @@ public class ProjectService {
         return projectMapper.entityToDto(projectRepository.save(project));
     }
 
+    public List<ProjectResponseDTO> findAllProjects() {
+        return projectRepository.findAll().stream().map(projectMapper::entityToDto).toList();
+    }
+
+    public ProjectResponseDTO findProjectById(Long projectId) {
+        return projectMapper.entityToDto(getProject(projectId));
+    }
+
+    public void updateProject(Long projectId, ProjectRequestDTO projectRequestDTO) {
+        validateProjectFields(projectRequestDTO);
+        final var project = getProject(projectId);
+        projectMapper.atualizaDeDto(projectRequestDTO, project);
+        projectRepository.save(project);
+    }
+
+    public void deleteProject(Long projectId) {
+        final var project = getProject(projectId);
+        project.setActive(false);
+        projectRepository.save(project);
+    }
+
+    private Project getProject(Long projectId) {
+        return projectRepository
+                .findById(projectId)
+                .orElseThrow(
+                        () ->
+                                new NotFoundException(
+                                        String.format("Nenhum projeot encontrado para o id: %s", projectId)));
+    }
+
     private void validateProjectFields(ProjectRequestDTO projectRequestDTO) {
         Optional.ofNullable(projectRequestDTO.startDate())
                 .flatMap(
@@ -37,20 +68,5 @@ public class ProjectService {
                             throw new BusinessException(
                                     "A data de término não pode ser anterior à data de início.");
                         });
-    }
-
-    public List<ProjectResponseDTO> findAllProjects() {
-        return projectRepository.findAll().stream().map(projectMapper::entityToDto).toList();
-    }
-
-    public ProjectResponseDTO findProjectById(Long projectId) {
-        final var project =
-                projectRepository
-                        .findById(projectId)
-                        .orElseThrow(
-                                () ->
-                                        new NotFoundException(
-                                                String.format("Nenhum projeot encontrado para o id: %s", projectId)));
-        return projectMapper.entityToDto(project);
     }
 }

@@ -16,7 +16,7 @@ import jakarta.validation.Valid;
 @RequestMapping(value = "/api/v1/project", produces = MediaType.APPLICATION_JSON_VALUE)
 public interface ProjectApi {
 
-    @Operation(description = "Realizar o cadastro de um projeto no sistema")
+    @Operation(description = "Realiza o cadastro de um projeto no sistema")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     ProjectResponseDTO createProject(@Valid @RequestBody ProjectRequestDTO projectRequestDTO);
@@ -30,4 +30,15 @@ public interface ProjectApi {
     @GetMapping("/{projectId}")
     @ResponseStatus(HttpStatus.OK)
     ProjectResponseDTO findProjectById(@PathVariable Long projectId);
+
+    @Operation(description = "Permite a edição de determinado projeto")
+    @PutMapping("/{projectId}")
+    @ResponseStatus(HttpStatus.OK)
+    void updateProject(
+            @PathVariable Long projectId, @Valid @RequestBody ProjectRequestDTO projectRequestDTO);
+
+    @Operation(description = "Permite a inatiuvação de determinado projeto")
+    @DeleteMapping("/{projectId}")
+    @ResponseStatus(HttpStatus.OK)
+    void deleteProject(@PathVariable Long projectId);
 }
