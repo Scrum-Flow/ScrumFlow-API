@@ -27,3 +27,8 @@ spring:
 api:
   security:
     token_secret:
+      
+info:
+  app:
+    name:
+    description:
