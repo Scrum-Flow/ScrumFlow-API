@@ -26,8 +26,8 @@ public class TeamController implements TeamApi {
     }
 
     @Override
-    public TeamResponseDTO updateTeam(Long teamId, TeamRequestDTO team) {
-        return teamService.updateTeam(teamId, team);
+    public TeamResponseDTO updateTeam(Long id, TeamRequestDTO team) {
+        return teamService.updateTeam(id, team);
     }
 
     @Override
