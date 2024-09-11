@@ -24,7 +24,7 @@ public class EnableSwaggerConfiguration {
 
     @Value("${info.app.description}")
     private String description;
-    
+
     @Value("${server.port}")
     private String serverPort;
 
@@ -36,7 +36,7 @@ public class EnableSwaggerConfiguration {
     public OpenAPI customOpenAPI(BuildProperties buildProperties) {
 
         final var servers =
-                Stream.of("http://localhost:" + serverPort ).map(url -> new Server().url(url)).toList();
+                Stream.of("http://localhost:" + serverPort).map(url -> new Server().url(url)).toList();
 
         return new OpenAPI()
                 .addSecurityItem(new SecurityRequirement().addList("Authorization"))
