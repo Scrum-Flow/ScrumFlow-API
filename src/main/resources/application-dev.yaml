@@ -16,6 +16,7 @@ spring:
     password:
     driver-class-name:
   jpa:
+    show-sql: true
     hibernate:
       ddl-auto: none
   flyway:
