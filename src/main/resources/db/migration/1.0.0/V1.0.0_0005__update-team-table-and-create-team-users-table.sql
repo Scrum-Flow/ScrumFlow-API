@@ -18,7 +18,7 @@ CREATE TABLE team_users
 );
 
 ALTER TABLE team
-    ADD CONSTRAINT uc_7165b6bc3d89d0af81a8d0b8b UNIQUE (name, project_id);
+    ADD CONSTRAINT unique_team_name_project_id UNIQUE (name, project_id);
 
 ALTER TABLE team
     ADD CONSTRAINT FK_TEAM_ON_PROJECT FOREIGN KEY (project_id) REFERENCES project (id);
