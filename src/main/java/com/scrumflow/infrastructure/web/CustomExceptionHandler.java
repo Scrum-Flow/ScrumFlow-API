@@ -2,9 +2,11 @@ package com.scrumflow.infrastructure.web;
 
 import java.util.List;
 
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -48,6 +50,17 @@ public class CustomExceptionHandler {
     public ResponseEntity<Object> handleAccessDeniedException(InvalidCredentialsException ex) {
         var apiErrorMessage =
                 new ApiErrorMessage(HttpStatus.FORBIDDEN.value(), List.of(ex.getMessage()));
+        return new ResponseEntity<>(apiErrorMessage, HttpStatus.valueOf(apiErrorMessage.getStatus()));
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Object> handleMethodArgumentNotValidException(
+            MethodArgumentNotValidException ex) {
+
+        List<String> errors =
+                ex.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList();
+        ApiErrorMessage apiErrorMessage = new ApiErrorMessage(HttpStatus.BAD_REQUEST.value(), errors);
+
         return new ResponseEntity<>(apiErrorMessage, HttpStatus.valueOf(apiErrorMessage.getStatus()));
     }
 }
