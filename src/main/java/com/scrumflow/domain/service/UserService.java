@@ -2,7 +2,6 @@ package com.scrumflow.domain.service;
 
 import java.util.Optional;
 
-import com.scrumflow.domain.exception.NotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +9,7 @@ import com.scrumflow.application.dto.request.LoginRequestDTO;
 import com.scrumflow.application.dto.request.RegisterRequestDTO;
 import com.scrumflow.application.dto.response.JWTResponseDTO;
 import com.scrumflow.domain.exception.InvalidCredentialsException;
+import com.scrumflow.domain.exception.NotFoundException;
 import com.scrumflow.domain.model.User;
 import com.scrumflow.infrastructure.config.security.TokenService;
 import com.scrumflow.infrastructure.repository.UserRepository;
@@ -59,8 +59,11 @@ public class UserService {
                 .map(u -> new JWTResponseDTO(u.getName(), u.getEmail(), tokenService.generateToken(u)))
                 .orElseThrow(() -> new InvalidCredentialsException("Usuário ou senha inválidos"));
     }
-    
+
     public User getUserById(Long id) {
-        return userRepository.findById( id ).orElseThrow( () -> new NotFoundException("Não foi possível encontrar o usuário com id: %s", id)); 
+        return userRepository
+                .findById(id)
+                .orElseThrow(
+                        () -> new NotFoundException("Não foi possível encontrar o usuário com id: %s", id));
     }
 }

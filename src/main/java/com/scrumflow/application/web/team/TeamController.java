@@ -29,19 +29,19 @@ public class TeamController implements TeamApi {
     public TeamResponseDTO updateTeam(Long id, TeamRequestDTO team) {
         return teamService.updateTeam(id, team);
     }
-    
+
     @Override
     public List<TeamResponseDTO> getTeams(Long projectId, String name) {
-        return teamService.getTeams( projectId, name );
+        return teamService.getTeams(projectId, name);
     }
-    
+
     @Override
     public String associateUserToTeam(Long teamId, Long userId) {
-        return teamService.associateUserToTeam( teamId, userId);
+        return teamService.associateUserToTeam(teamId, userId);
     }
-    
+
     @Override
     public String disassociateUserFromTeam(Long teamId, Long userId) {
-        return teamService.desassociateUserFromTeam(teamId,userId);
+        return teamService.desassociateUserFromTeam(teamId, userId);
     }
 }

@@ -3,11 +3,11 @@ package com.scrumflow.domain.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.scrumflow.domain.exception.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import com.scrumflow.application.dto.request.TeamRequestDTO;
 import com.scrumflow.application.dto.response.TeamResponseDTO;
+import com.scrumflow.domain.exception.BadRequestException;
 import com.scrumflow.domain.exception.NotFoundException;
 import com.scrumflow.domain.exception.TeamNotFoundException;
 import com.scrumflow.domain.mapper.TeamMapper;
@@ -28,7 +28,7 @@ public class TeamService {
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
     private final UserService userService;
-    
+
     public TeamResponseDTO createTeam(TeamRequestDTO teamRequestDTO) {
 
         validateDTOFields(teamRequestDTO);
@@ -65,18 +65,15 @@ public class TeamService {
         teamRepository.delete(team);
     }
 
-    public List<TeamResponseDTO> getTeams( Long projectId, String name ) 
-    {
-         List<Team> teams;
-        if ( projectId != null ) 
-        {
-            if ( projectId <= 0 )
-            {
-                throw new BadRequestException( "Informe um id de projeto maior que zero!" );    
+    public List<TeamResponseDTO> getTeams(Long projectId, String name) {
+        List<Team> teams;
+        if (projectId != null) {
+            if (projectId <= 0) {
+                throw new BadRequestException("Informe um id de projeto maior que zero!");
             }
-            
+
             teams = teamRepository.findByProjectId(projectId);
-        } else if ( name != null && !name.isEmpty() ) {
+        } else if (name != null && !name.isEmpty()) {
             teams = teamRepository.findByNameContaining(name);
         } else {
             teams = teamRepository.findAll();
@@ -97,32 +94,30 @@ public class TeamService {
     private Team getTeam(Long id) {
         return teamRepository.findById(id).orElseThrow(() -> new TeamNotFoundException(id));
     }
-    
-    public String associateUserToTeam(Long teamId, Long userId) 
-    {
+
+    public String associateUserToTeam(Long teamId, Long userId) {
         Team team = getTeam(teamId);
         User user = userService.getUserById(userId);
-        
-        /* precisa ser feito 
-        * team.getUsers().contains(user) -> bad request pois ele já está associado
-        * 
-        * salva a associação
-        * */
-        
+
+        /* precisa ser feito
+         * team.getUsers().contains(user) -> bad request pois ele já está associado
+         *
+         * salva a associação
+         * */
+
         return "Usuário adicionado no time com sucesso!";
     }
-    
-    public String desassociateUserFromTeam(Long teamId, Long userId) 
-    {
-         Team team = getTeam(teamId);
+
+    public String desassociateUserFromTeam(Long teamId, Long userId) {
+        Team team = getTeam(teamId);
         User user = userService.getUserById(userId);
-        
-        /* precisa ser feito 
-        * !team.getUsers().contains(user) -> bad request pois usuário não existe no time
-        * 
-        * delete associação
-        * */
-        
+
+        /* precisa ser feito
+         * !team.getUsers().contains(user) -> bad request pois usuário não existe no time
+         *
+         * delete associação
+         * */
+
         return "Usuário removido do time com sucesso!";
     }
 }

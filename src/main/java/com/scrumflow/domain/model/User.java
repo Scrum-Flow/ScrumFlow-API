@@ -1,6 +1,8 @@
 package com.scrumflow.domain.model;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -43,6 +45,13 @@ public class User {
     private LocalDateTime updatedAt;
 
     private Boolean active = true;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_teams",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "teams_id"))
+    private Set<Team> teams = new LinkedHashSet<>();
 
     @PrePersist
     protected void onCreate() {
