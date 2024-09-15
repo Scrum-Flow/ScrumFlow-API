@@ -1,4 +1,4 @@
-# DROP TABLE teams;
+DROP TABLE teams;
 
 CREATE TABLE team
 (
