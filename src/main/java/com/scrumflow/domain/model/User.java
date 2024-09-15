@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -46,11 +47,8 @@ public class User {
 
     private Boolean active = true;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_teams",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "teams_id"))
+    @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Team> teams = new LinkedHashSet<>();
 
     @PrePersist
