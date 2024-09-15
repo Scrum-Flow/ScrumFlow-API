@@ -1,7 +1,10 @@
 package com.scrumflow.domain.model;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -43,6 +46,10 @@ public class User {
     private LocalDateTime updatedAt;
 
     private Boolean active = true;
+
+    @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    @JsonBackReference
+    private Set<Team> teams = new LinkedHashSet<>();
 
     @PrePersist
     protected void onCreate() {
