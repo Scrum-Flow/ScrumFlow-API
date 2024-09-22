@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.scrumflow.application.dto.request.LoginRequestDTO;
 import com.scrumflow.application.dto.request.RegisterRequestDTO;
-import com.scrumflow.application.dto.response.JWTResponseDTO;
+import com.scrumflow.application.dto.response.LoginResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -17,9 +17,9 @@ public interface AuthApi {
 
     @Operation(description = "Realizar login no sistema")
     @PostMapping("/login")
-    JWTResponseDTO login(@RequestBody LoginRequestDTO body);
+    LoginResponseDTO login(@RequestBody LoginRequestDTO body);
 
     @Operation(description = "Realizar cadastro no sistema")
     @PostMapping("/register")
-    JWTResponseDTO register(@RequestBody RegisterRequestDTO body);
+    LoginResponseDTO register(@RequestBody RegisterRequestDTO body);
 }
