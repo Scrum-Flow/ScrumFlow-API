@@ -1,3 +1,5 @@
 package com.scrumflow.application.dto.response;
 
-public record LoginResponseDTO(String name, String email, String token) {}
+import java.util.List;
+
+public record LoginResponseDTO(String name, String email, String token, List<RoleDTO> role) {}

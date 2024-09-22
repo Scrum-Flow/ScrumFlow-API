@@ -1,5 +1,6 @@
 package com.scrumflow.domain.service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.scrumflow.application.dto.request.LoginRequestDTO;
 import com.scrumflow.application.dto.request.RegisterRequestDTO;
 import com.scrumflow.application.dto.response.LoginResponseDTO;
+import com.scrumflow.application.dto.response.RoleDTO;
+import com.scrumflow.domain.enums.RoleType;
 import com.scrumflow.domain.exception.BadRequestException;
 import com.scrumflow.domain.exception.InvalidCredentialsException;
 import com.scrumflow.domain.exception.NotFoundException;
@@ -47,22 +50,31 @@ public class UserService {
             throw new InvalidCredentialsException("Senha inválida!");
         }
 
+        Role role = getRoleByName(registerRequestDTO.role().name());
+
         User newUser = new User();
         newUser.setName(registerRequestDTO.name());
         newUser.setEmail(registerRequestDTO.email());
         newUser.setPassword(passwordEncoder.encode(registerRequestDTO.password()));
+        newUser.getRoles().add(role);
 
         userRepository.save(newUser);
 
         return new LoginResponseDTO(
-                newUser.getName(), newUser.getEmail(), tokenService.generateToken(newUser));
+                newUser.getName(),
+                newUser.getEmail(),
+                tokenService.generateToken(newUser),
+                getUserRoles(newUser));
     }
 
     public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) {
         Optional<User> user = userRepository.findByEmail(loginRequestDTO.email());
 
         return user.filter(u -> passwordEncoder.matches(loginRequestDTO.password(), u.getPassword()))
-                .map(u -> new LoginResponseDTO(u.getName(), u.getEmail(), tokenService.generateToken(u)))
+                .map(
+                        u ->
+                                new LoginResponseDTO(
+                                        u.getName(), u.getEmail(), tokenService.generateToken(u), getUserRoles(u)))
                 .orElseThrow(() -> new InvalidCredentialsException("Usuário ou senha inválidos"));
     }
 
@@ -120,7 +132,11 @@ public class UserService {
 
     public Role getRoleByName(String name) {
         return roleRepository
-                .findByName(name)
+                .findByName(RoleType.valueOf(name))
                 .orElseThrow(() -> new NotFoundException("Não foi possível encontrar a role " + name));
+    }
+
+    public List<RoleDTO> getUserRoles(User user) {
+        return user.getRoles().stream().map(r -> new RoleDTO(r.getName().name())).toList();
     }
 }

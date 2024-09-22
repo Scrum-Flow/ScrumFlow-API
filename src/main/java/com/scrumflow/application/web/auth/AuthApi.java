@@ -10,6 +10,7 @@ import com.scrumflow.application.dto.request.RegisterRequestDTO;
 import com.scrumflow.application.dto.response.LoginResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 
 @Tag(name = "Auth", description = "Operações de Autenticação")
 @RequestMapping(value = "/api/v1/auth", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -21,5 +22,5 @@ public interface AuthApi {
 
     @Operation(description = "Realizar cadastro no sistema")
     @PostMapping("/register")
-    LoginResponseDTO register(@RequestBody RegisterRequestDTO body);
+    LoginResponseDTO register(@RequestBody @Valid RegisterRequestDTO body);
 }
