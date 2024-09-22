@@ -2,6 +2,8 @@ package com.scrumflow.domain.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -46,7 +48,10 @@ public class Project {
     private LocalDateTime updatedAt;
 
     private Boolean active;
-
+    
+    @OneToMany(mappedBy = "project", orphanRemoval = true)
+    private List<Sprint> sprints = new ArrayList<>();
+    
     public Project(
             Long id,
             String name,
