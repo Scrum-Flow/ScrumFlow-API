@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.scrumflow.application.dto.request.LoginRequestDTO;
 import com.scrumflow.application.dto.request.RegisterRequestDTO;
 import com.scrumflow.application.dto.response.LoginResponseDTO;
+import com.scrumflow.application.dto.response.RoleDTO;
+import com.scrumflow.domain.enums.RoleType;
 import com.scrumflow.domain.exception.BadRequestException;
 import com.scrumflow.domain.exception.InvalidCredentialsException;
 import com.scrumflow.domain.exception.NotFoundException;
@@ -50,22 +52,31 @@ public class UserService {
             throw new InvalidCredentialsException("Senha inválida!");
         }
 
+        Role role = userUtilities.getRoleByName(registerRequestDTO.role());
+
         User newUser = new User();
         newUser.setName(registerRequestDTO.name());
         newUser.setEmail(registerRequestDTO.email());
         newUser.setPassword(passwordEncoder.encode(registerRequestDTO.password()));
+        newUser.getRoles().add(role);
 
         userRepository.save(newUser);
 
         return new LoginResponseDTO(
-                newUser.getName(), newUser.getEmail(), tokenService.generateToken(newUser));
+                newUser.getName(),
+                newUser.getEmail(),
+                tokenService.generateToken(newUser),
+                userUtilities.getUserRoles(newUser));
     }
 
     public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) {
         Optional<User> user = userRepository.findByEmail(loginRequestDTO.email());
 
         return user.filter(u -> passwordEncoder.matches(loginRequestDTO.password(), u.getPassword()))
-                .map(u -> new LoginResponseDTO(u.getName(), u.getEmail(), tokenService.generateToken(u)))
+                .map(
+                        u ->
+                                new LoginResponseDTO(
+                                        u.getName(), u.getEmail(), tokenService.generateToken(u), userUtilities.getUserRoles(u)))
                 .orElseThrow(() -> new InvalidCredentialsException("Usuário ou senha inválidos"));
     }
 

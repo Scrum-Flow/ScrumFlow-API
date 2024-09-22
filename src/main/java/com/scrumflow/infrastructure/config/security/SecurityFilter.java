@@ -32,7 +32,9 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (login != null) {
             UserDetails user = customUserDetailsService.loadUserByUsername(login);
 
-            SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities()));
+            SecurityContextHolder.getContext()
+                    .setAuthentication(
+                            new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities()));
         }
 
         filterChain.doFilter(request, response);
