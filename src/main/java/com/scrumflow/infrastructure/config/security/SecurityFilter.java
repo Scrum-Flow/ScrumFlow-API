@@ -1,17 +1,13 @@
 package com.scrumflow.infrastructure.config.security;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.scrumflow.domain.model.User;
-import com.scrumflow.infrastructure.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +18,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityFilter extends OncePerRequestFilter {
     private final TokenService tokenService;
-    private final UserRepository userRepository;
+
+    private final CustomUserDetailsService customUserDetailsService;
 
     @Override
     protected void doFilterInternal(
@@ -33,15 +30,9 @@ public class SecurityFilter extends OncePerRequestFilter {
         String login = tokenService.validateToken(token);
 
         if (login != null) {
-            User user =
-                    userRepository
-                            .findByEmail(login)
-                            .orElseThrow(() -> new RuntimeException("User not found"));
-            List<SimpleGrantedAuthority> authorities =
-                    Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
-            UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(user, null, authorities);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            UserDetails user = customUserDetailsService.loadUserByUsername(login);
+
+            SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities()));
         }
 
         filterChain.doFilter(request, response);
