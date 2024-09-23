@@ -11,11 +11,10 @@ import com.scrumflow.application.dto.request.RegisterRequestDTO;
 import com.scrumflow.application.dto.response.JWTResponseDTO;
 import com.scrumflow.domain.exception.BadRequestException;
 import com.scrumflow.domain.exception.InvalidCredentialsException;
-import com.scrumflow.domain.exception.NotFoundException;
 import com.scrumflow.domain.model.Role;
 import com.scrumflow.domain.model.User;
+import com.scrumflow.domain.service.validation.UserUtilities;
 import com.scrumflow.infrastructure.config.security.TokenService;
-import com.scrumflow.infrastructure.repository.RoleRepository;
 import com.scrumflow.infrastructure.repository.UserRepository;
 import com.scrumflow.infrastructure.utilities.RegisterValidator;
 import lombok.RequiredArgsConstructor;
@@ -25,11 +24,11 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
     private final UserRepository userRepository;
 
-    private final RoleRepository roleRepository;
-
     private final PasswordEncoder passwordEncoder;
 
     private final TokenService tokenService;
+
+    private final UserUtilities userUtilities;
 
     public JWTResponseDTO registerUser(RegisterRequestDTO registerRequestDTO) {
 
@@ -67,8 +66,8 @@ public class UserService {
     }
 
     public String assignRoleToUser(Long userId, Long roleId) {
-        User user = getUserById(userId);
-        Role role = getRoleById(roleId);
+        User user = userUtilities.getUserById(userId);
+        Role role = userUtilities.getRoleById(roleId);
 
         user.getRoles().stream()
                 .filter(r -> Objects.equals(r.getId(), roleId))
@@ -86,8 +85,8 @@ public class UserService {
     }
 
     public String removeRoleFromUser(Long userId, Long roleId) {
-        User user = getUserById(userId);
-        Role role = getRoleById(roleId);
+        User user = userUtilities.getUserById(userId);
+        Role role = userUtilities.getRoleById(roleId);
 
         user.getRoles().stream()
                 .filter(r -> Objects.equals(r.getId(), roleId))
@@ -102,25 +101,5 @@ public class UserService {
                         });
 
         return "Role removida com sucesso";
-    }
-
-    public User getUserById(Long id) {
-        return userRepository
-                .findById(id)
-                .orElseThrow(
-                        () -> new NotFoundException("Não foi possível encontrar o usuário com id: %s", id));
-    }
-
-    public Role getRoleById(Long id) {
-        return roleRepository
-                .findById(id)
-                .orElseThrow(
-                        () -> new NotFoundException("Não foi possível encontrar a role de id: %s", id));
-    }
-
-    public Role getRoleByName(String name) {
-        return roleRepository
-                .findByName(name)
-                .orElseThrow(() -> new NotFoundException("Não foi possível encontrar a role " + name));
     }
 }

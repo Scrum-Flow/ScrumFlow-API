@@ -28,7 +28,7 @@ public class CustomExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<Object> handleBusinessException(BusinessException ex) {
         final var apiErrorMessage =
-                new ApiErrorMessage(HttpStatus.UNPROCESSABLE_ENTITY.value(), List.of(ex.getMessage()));
+                new ApiErrorMessage(HttpStatus.UNPROCESSABLE_ENTITY.value(), ex.getErrors());
         return new ResponseEntity<>(apiErrorMessage, HttpStatus.valueOf(apiErrorMessage.getStatus()));
     }
 
