@@ -1,17 +1,17 @@
 package com.scrumflow.domain.service.utilities;
 
-import com.scrumflow.application.dto.response.RoleDTO;
-import com.scrumflow.domain.enums.RoleType;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
+import com.scrumflow.application.dto.response.RoleDTO;
+import com.scrumflow.domain.enums.RoleType;
 import com.scrumflow.domain.exception.NotFoundException;
 import com.scrumflow.domain.model.Role;
 import com.scrumflow.domain.model.User;
 import com.scrumflow.infrastructure.repository.RoleRepository;
 import com.scrumflow.infrastructure.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor

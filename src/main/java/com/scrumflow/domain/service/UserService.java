@@ -73,7 +73,10 @@ public class UserService {
                 .map(
                         u ->
                                 new LoginResponseDTO(
-                                        u.getName(), u.getEmail(), tokenService.generateToken(u), userUtilities.getUserRoles(u)))
+                                        u.getName(),
+                                        u.getEmail(),
+                                        tokenService.generateToken(u),
+                                        userUtilities.getUserRoles(u)))
                 .orElseThrow(() -> new InvalidCredentialsException("Usuário ou senha inválidos"));
     }
 
