@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.scrumflow.domain.enums.RoleType;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -67,10 +68,8 @@ public class SecurityConfiguration {
     @Bean
     static RoleHierarchy roleHierarchy() {
         return RoleHierarchyImpl.withDefaultRolePrefix()
-                .role("ADMIN")
-                .implies("MANAGER")
-                .role("MANAGER")
-                .implies("USER")
+                .role(RoleType.ADMIN.toString())
+                .implies(RoleType.PROJECT_MANAGER.toString(), RoleType.PRODUCT_OWNER.toString())
                 .build();
     }
 }

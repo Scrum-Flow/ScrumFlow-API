@@ -2,11 +2,11 @@ package com.scrumflow.domain.enums;
 
 public enum RoleType {
     ADMIN,
-    MANAGER,
-    USER;
+    PROJECT_MANAGER,
+    PRODUCT_OWNER;
 
     @Override
     public String toString() {
-        return name();
+        return "ROLE_" + name();
     }
 }
