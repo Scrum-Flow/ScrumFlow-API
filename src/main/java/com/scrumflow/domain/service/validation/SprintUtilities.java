@@ -32,7 +32,7 @@ public class SprintUtilities {
         Errors errors = validateDates(sprint, p, new Errors());
 
         if (errors.hasErrors()) {
-            throw new BusinessException(errors.getErrorMessage());
+            throw new BusinessException(errors.getErrors());
         }
 
         sprint.setProject(p);

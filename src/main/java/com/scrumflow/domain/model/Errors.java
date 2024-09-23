@@ -14,7 +14,7 @@ public class Errors {
         return !errors.isEmpty();
     }
 
-    public String getErrorMessage() {
-        return String.join("\n", errors);
+    public List<String> getErrors() {
+        return errors;
     }
 }
