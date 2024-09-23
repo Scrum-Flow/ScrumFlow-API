@@ -3,7 +3,7 @@ package com.scrumflow.domain.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Error {
+public class Errors {
     private List<String> errors = new ArrayList<String>();
 
     public void addError(String error) {
