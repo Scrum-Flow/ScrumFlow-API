@@ -1,4 +1,4 @@
-package com.scrumflow.domain.service.validation;
+package com.scrumflow.domain.service.utilities;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package com.scrumflow.domain.service.validation;
+package com.scrumflow.domain.service.utilities;
 
 import com.scrumflow.application.dto.response.RoleDTO;
 import com.scrumflow.domain.enums.RoleType;

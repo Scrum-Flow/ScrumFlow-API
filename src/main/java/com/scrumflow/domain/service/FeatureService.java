@@ -8,7 +8,7 @@ import com.scrumflow.application.dto.filter.FeatureRequestFilterDTO;
 import com.scrumflow.application.dto.request.FeatureRequestDTO;
 import com.scrumflow.application.dto.response.FeatureResponseDTO;
 import com.scrumflow.domain.mapper.FeatureMapper;
-import com.scrumflow.domain.service.validation.FeatureUtilities;
+import com.scrumflow.domain.service.utilities.FeatureUtilities;
 import com.scrumflow.infrastructure.repository.FeatureRepository;
 import com.scrumflow.infrastructure.repository.specification.FeatureSpec;
 import lombok.RequiredArgsConstructor;

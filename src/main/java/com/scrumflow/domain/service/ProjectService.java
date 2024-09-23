@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.scrumflow.application.dto.request.ProjectRequestDTO;
 import com.scrumflow.application.dto.response.ProjectResponseDTO;
 import com.scrumflow.domain.mapper.ProjectMapper;
-import com.scrumflow.domain.service.validation.ProjectUtilities;
+import com.scrumflow.domain.service.utilities.ProjectUtilities;
 import com.scrumflow.infrastructure.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
