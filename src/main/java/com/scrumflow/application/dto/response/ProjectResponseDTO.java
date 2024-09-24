@@ -6,4 +6,9 @@ import lombok.Builder;
 
 @Builder
 public record ProjectResponseDTO(
-        Long id, String name, String description, LocalDate startDate, LocalDate endDate) {}
+        Long id,
+        String name,
+        String description,
+        LocalDate startDate,
+        LocalDate endDate,
+        Boolean active) {}
