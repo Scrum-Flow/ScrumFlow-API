@@ -17,6 +17,7 @@ public interface ProjectMapper {
     @Mapping(source = "description", target = "description")
     @Mapping(source = "startDate", target = "startDate")
     @Mapping(source = "endDate", target = "endDate")
+    @Mapping(source = "active", target = "active")
     Project dtoToEntity(ProjectRequestDTO projectRequestDTO);
 
     void atualizaDeDto(ProjectRequestDTO projectRequestDTO, @MappingTarget Project project);
