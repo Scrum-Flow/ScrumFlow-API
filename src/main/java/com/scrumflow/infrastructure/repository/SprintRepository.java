@@ -1,7 +1,9 @@
 package com.scrumflow.infrastructure.repository;
 
-import com.scrumflow.domain.model.Sprint;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface SprintRepository extends JpaRepository<Sprint, Long> {
-}
+import com.scrumflow.domain.model.Sprint;
+
+public interface SprintRepository
+        extends JpaRepository<Sprint, Long>, JpaSpecificationExecutor<Sprint> {}

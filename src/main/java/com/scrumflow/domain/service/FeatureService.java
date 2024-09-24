@@ -7,13 +7,9 @@ import org.springframework.stereotype.Service;
 import com.scrumflow.application.dto.filter.FeatureRequestFilterDTO;
 import com.scrumflow.application.dto.request.FeatureRequestDTO;
 import com.scrumflow.application.dto.response.FeatureResponseDTO;
-import com.scrumflow.domain.exception.BusinessException;
-import com.scrumflow.domain.exception.NotFoundException;
 import com.scrumflow.domain.mapper.FeatureMapper;
-import com.scrumflow.domain.model.Feature;
-import com.scrumflow.domain.model.Project;
+import com.scrumflow.domain.service.validation.FeatureUtilities;
 import com.scrumflow.infrastructure.repository.FeatureRepository;
-import com.scrumflow.infrastructure.repository.ProjectRepository;
 import com.scrumflow.infrastructure.repository.specification.FeatureSpec;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
@@ -23,12 +19,13 @@ import org.mapstruct.factory.Mappers;
 public class FeatureService {
 
     private final FeatureRepository featureRepository;
-    private final ProjectRepository projectRepository;
+    private final FeatureUtilities featureUtilities;
+
     private final FeatureMapper featureMapper = Mappers.getMapper(FeatureMapper.class);
 
     public FeatureResponseDTO createFeature(FeatureRequestDTO featureRequestDTO) {
         final var feature = featureMapper.dtoToEntity(featureRequestDTO);
-        validateFeatureFields(feature, featureRequestDTO);
+        featureUtilities.validateFeatureFields(feature, featureRequestDTO);
         return featureMapper.entityToDto(featureRepository.save(feature));
     }
 
@@ -40,44 +37,18 @@ public class FeatureService {
     }
 
     public FeatureResponseDTO findFeatureById(Long featureId) {
-        return featureMapper.entityToDto(getFeature(featureId));
+        return featureMapper.entityToDto(featureUtilities.getFeature(featureId));
     }
 
     public void updateFeature(Long featureId, FeatureRequestDTO featureRequestDTO) {
-        final var feature = getFeature(featureId);
-        validateFeatureFields(feature, featureRequestDTO);
+        final var feature = featureUtilities.getFeature(featureId);
+        featureUtilities.validateFeatureFields(feature, featureRequestDTO);
         featureMapper.atualizaDeDto(featureRequestDTO, feature);
         featureRepository.save(feature);
     }
 
     public void deleteFeature(Long featureId) {
-        final var feature = getFeature(featureId);
+        final var feature = featureUtilities.getFeature(featureId);
         featureRepository.delete(feature);
-    }
-
-    private Feature getFeature(Long featureId) {
-        return featureRepository
-                .findById(featureId)
-                .orElseThrow(
-                        () ->
-                                new NotFoundException(
-                                        String.format("Nenhuma feature encontrada para o id: %s", featureId)));
-    }
-
-    private void validateFeatureFields(Feature feature, FeatureRequestDTO featureRequestDTO) {
-        final var projeto = getProject(featureRequestDTO.projectId());
-        if (!Boolean.TRUE.equals(projeto.getActive()))
-            throw new BusinessException("Não é permitido associar funiconalidades a projetos inativos!");
-
-        feature.setProject(projeto);
-    }
-
-    private Project getProject(Long projectId) {
-        return projectRepository
-                .findById(projectId)
-                .orElseThrow(
-                        () ->
-                                new NotFoundException(
-                                        String.format("Nenhum projeto encontrado para o id: %s", projectId)));
     }
 }

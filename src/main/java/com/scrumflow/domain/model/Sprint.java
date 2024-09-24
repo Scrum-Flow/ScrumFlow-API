@@ -1,5 +1,8 @@
 package com.scrumflow.domain.model;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import com.scrumflow.domain.enums.SprintStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,52 +20,48 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 @Entity
 @Table
 @Getter
 @Setter
 @NoArgsConstructor
-public class Sprint 
-{
+public class Sprint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(nullable = false)
     private String name;
-    
-    @Column( columnDefinition = "TEXT")
+
+    @Column(columnDefinition = "TEXT")
     private String description;
-    
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
     private SprintStatus status = SprintStatus.PLANEJADA;
-    
+
     @Column(nullable = false)
     private LocalDate startDate;
 
     @Column(nullable = false)
     private LocalDate endDate;
 
-    @Column( updatable = false)
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
-    
+
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
-    
+
     @PrePersist
     public void prePersist() {
         LocalDateTime now = LocalDateTime.now();
         this.createdAt = now;
         this.updatedAt = now;
     }
-    
+
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
