@@ -1,7 +1,11 @@
-package com.scrumflow.domain.service.validation;
+package com.scrumflow.domain.service.utilities;
+
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.scrumflow.application.dto.response.RoleDTO;
+import com.scrumflow.domain.enums.RoleType;
 import com.scrumflow.domain.exception.NotFoundException;
 import com.scrumflow.domain.model.Role;
 import com.scrumflow.domain.model.User;
@@ -29,9 +33,13 @@ public class UserUtilities {
                         () -> new NotFoundException("Não foi possível encontrar a role de id: %s", id));
     }
 
-    public Role getRoleByName(String name) {
+    public Role getRoleByName(RoleType name) {
         return roleRepository
                 .findByName(name)
                 .orElseThrow(() -> new NotFoundException("Não foi possível encontrar a role " + name));
+    }
+
+    public List<RoleDTO> getUserRoles(User user) {
+        return user.getRoles().stream().map(r -> new RoleDTO(r.getName().name())).toList();
     }
 }

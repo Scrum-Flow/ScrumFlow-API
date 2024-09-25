@@ -9,7 +9,7 @@ import com.scrumflow.application.dto.request.SprintRequestDTO;
 import com.scrumflow.application.dto.response.SprintResponseDTO;
 import com.scrumflow.domain.mapper.SprintMapper;
 import com.scrumflow.domain.model.Sprint;
-import com.scrumflow.domain.service.validation.SprintUtilities;
+import com.scrumflow.domain.service.utilities.SprintUtilities;
 import com.scrumflow.infrastructure.repository.SprintRepository;
 import com.scrumflow.infrastructure.repository.specification.SprintSpec;
 import lombok.RequiredArgsConstructor;
