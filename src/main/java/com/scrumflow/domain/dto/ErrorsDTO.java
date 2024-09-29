@@ -1,10 +1,10 @@
-package com.scrumflow.domain.model;
+package com.scrumflow.domain.dto;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Errors {
-    private List<String> errors = new ArrayList<String>();
+public class ErrorsDTO {
+    private List<String> errors = new ArrayList<>();
 
     public void addError(String error) {
         errors.add(error);

@@ -19,7 +19,7 @@ public class ProjectUtilities {
     public Project validateActiveProject(Long projectId) {
         Project project = getProject(projectId);
 
-        if (!project.getActive()) {
+        if (Boolean.FALSE.equals(project.getActive())) {
             throw new BusinessException("O projeto " + project.getName() + " está inativo");
         }
 

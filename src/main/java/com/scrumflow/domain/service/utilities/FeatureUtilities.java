@@ -24,11 +24,17 @@ public class FeatureUtilities {
                                         String.format("Nenhuma feature encontrada para o id: %s", featureId)));
     }
 
+    public void exists(Long featureId) {
+        if (!featureRepository.existsById(featureId))
+            throw new NotFoundException(
+                    String.format("Nenhuma feature encontrada para o id: %s", featureId));
+    }
+
     public void validateFeatureFields(Feature feature, FeatureRequestDTO featureRequestDTO) {
         final var projeto = projectValidationService.getProject(featureRequestDTO.projectId());
 
         if (!Boolean.TRUE.equals(projeto.getActive()))
-            throw new BusinessException("Não é permitido associar funiconalidades a projetos inativos!");
+            throw new BusinessException("Não é permitido associar funcionalidades a projetos inativos!");
 
         feature.setProject(projeto);
     }
