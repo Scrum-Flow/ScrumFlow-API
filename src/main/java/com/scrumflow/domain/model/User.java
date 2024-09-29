@@ -50,7 +50,7 @@ public class User implements UserDetails {
             columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
 
-    private Boolean active = true;
+    private boolean active = true;
 
     @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
     @JsonBackReference

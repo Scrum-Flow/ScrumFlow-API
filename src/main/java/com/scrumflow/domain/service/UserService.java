@@ -1,5 +1,6 @@
 package com.scrumflow.domain.service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -9,29 +10,31 @@ import org.springframework.stereotype.Service;
 import com.scrumflow.application.dto.request.LoginRequestDTO;
 import com.scrumflow.application.dto.request.RegisterRequestDTO;
 import com.scrumflow.application.dto.response.LoginResponseDTO;
+import com.scrumflow.application.dto.response.UserResponseDTO;
 import com.scrumflow.domain.exception.BadRequestException;
 import com.scrumflow.domain.exception.InvalidCredentialsException;
+import com.scrumflow.domain.mapper.UserMapper;
 import com.scrumflow.domain.model.Role;
 import com.scrumflow.domain.model.User;
 import com.scrumflow.domain.service.utilities.UserUtilities;
 import com.scrumflow.infrastructure.config.security.TokenService;
-import com.scrumflow.infrastructure.repository.RoleRepository;
 import com.scrumflow.infrastructure.repository.UserRepository;
 import com.scrumflow.infrastructure.utilities.RegisterValidator;
 import lombok.RequiredArgsConstructor;
+import org.mapstruct.factory.Mappers;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
 
-    private final RoleRepository roleRepository;
-
     private final PasswordEncoder passwordEncoder;
 
     private final TokenService tokenService;
 
     private final UserUtilities userUtilities;
+
+    private final UserMapper userMapper = Mappers.getMapper(UserMapper.class);
 
     public LoginResponseDTO registerUser(RegisterRequestDTO registerRequestDTO) {
 
@@ -116,5 +119,9 @@ public class UserService {
                         });
 
         return "Role removida com sucesso";
+    }
+
+    public List<UserResponseDTO> findAllUsers() {
+        return userRepository.findAll().stream().map(userMapper::entityToDto).toList();
     }
 }
