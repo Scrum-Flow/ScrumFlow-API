@@ -18,6 +18,7 @@ import com.scrumflow.domain.model.Role;
 import com.scrumflow.domain.model.User;
 import com.scrumflow.domain.service.utilities.UserUtilities;
 import com.scrumflow.infrastructure.config.security.TokenService;
+import com.scrumflow.infrastructure.repository.RoleRepository;
 import com.scrumflow.infrastructure.repository.UserRepository;
 import com.scrumflow.infrastructure.utilities.RegisterValidator;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,7 @@ public class UserService {
     private final UserUtilities userUtilities;
 
     private final UserMapper userMapper = Mappers.getMapper(UserMapper.class);
+    private final RoleRepository roleRepository;
 
     public LoginResponseDTO registerUser(RegisterRequestDTO registerRequestDTO) {
 
@@ -52,13 +54,10 @@ public class UserService {
             throw new InvalidCredentialsException("Senha inválida!");
         }
 
-        Role role = userUtilities.getRoleByName(registerRequestDTO.role());
-
         User newUser = new User();
         newUser.setName(registerRequestDTO.name());
         newUser.setEmail(registerRequestDTO.email());
         newUser.setPassword(passwordEncoder.encode(registerRequestDTO.password()));
-        newUser.getRoles().add(role);
 
         userRepository.save(newUser);
 
