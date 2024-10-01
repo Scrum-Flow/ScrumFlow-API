@@ -26,6 +26,12 @@ public class UserUtilities {
                         () -> new NotFoundException("Não foi possível encontrar o usuário com id: %s", id));
     }
 
+    public User getUserByEmail(String email) {
+        return userRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Nenhum usuário encontrado"));
+    }
+
     public Role getRoleById(Long id) {
         return roleRepository
                 .findById(id)

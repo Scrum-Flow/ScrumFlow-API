@@ -1,0 +1,2 @@
+ALTER TABLE log
+    ADD method VARCHAR(10) NULL;

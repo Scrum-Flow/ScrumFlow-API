@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,9 +30,24 @@ public class Log {
     @Column(length = 650)
     private String route;
 
+    @NotNull
+    @Column(length = 10)
+    private String method;
+
     @NotNull private LocalDateTime date;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @PrePersist
+    protected void onCreate() {
+        this.date = LocalDateTime.now();
+    }
+
+    public Log(String endpoint, String httpMethod, User user) {
+        this.route = endpoint;
+        this.method = httpMethod;
+        this.user = user;
+    }
 }
