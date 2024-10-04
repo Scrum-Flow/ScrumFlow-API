@@ -68,8 +68,8 @@ public class SecurityConfiguration {
     @Bean
     static RoleHierarchy roleHierarchy() {
         return RoleHierarchyImpl.withDefaultRolePrefix()
-                .role(RoleType.ADMIN.toString())
-                .implies(RoleType.PROJECT_MANAGER.toString(), RoleType.PRODUCT_OWNER.toString())
+                .role(RoleType.ADMIN.name())
+                .implies(RoleType.PRODUCT_OWNER.name(), RoleType.PROJECT_MANAGER.name())
                 .build();
     }
 }
