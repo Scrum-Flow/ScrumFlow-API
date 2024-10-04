@@ -6,9 +6,14 @@ import org.springframework.stereotype.Service;
 
 import com.scrumflow.application.dto.filter.SprintFilterDTO;
 import com.scrumflow.application.dto.request.SprintRequestDTO;
+import com.scrumflow.application.dto.response.FeatureResponseDTO;
 import com.scrumflow.application.dto.response.SprintResponseDTO;
+import com.scrumflow.domain.exception.BusinessException;
+import com.scrumflow.domain.mapper.FeatureMapper;
 import com.scrumflow.domain.mapper.SprintMapper;
+import com.scrumflow.domain.model.Feature;
 import com.scrumflow.domain.model.Sprint;
+import com.scrumflow.domain.service.utilities.FeatureUtilities;
 import com.scrumflow.domain.service.utilities.SprintUtilities;
 import com.scrumflow.infrastructure.repository.SprintRepository;
 import com.scrumflow.infrastructure.repository.specification.SprintSpec;
@@ -22,6 +27,8 @@ public class SprintService {
     private final SprintUtilities sprintUtilities;
 
     private final SprintMapper sprintMapper = Mappers.getMapper(SprintMapper.class);
+    private final FeatureMapper featureMapper = Mappers.getMapper(FeatureMapper.class);
+    private final FeatureUtilities featureUtilities;
 
     public SprintResponseDTO createSprint(SprintRequestDTO sprintRequestDTO) {
         Sprint sprint = sprintMapper.dtoToEntity(sprintRequestDTO);
@@ -52,5 +59,35 @@ public class SprintService {
         return sprintRepository.findAll(SprintSpec.filterBy(sprintFilterDTO)).stream()
                 .map(sprintMapper::entityToDto)
                 .toList();
+    }
+
+    public void associateFeature(Long sprintId, Long featureId) {
+        Sprint sprint = sprintUtilities.getSprintById(sprintId);
+        Feature feature = featureUtilities.getFeature(featureId);
+
+        if (sprint.getFeatures().contains(feature)) {
+            throw new BusinessException("Feature already associated with this sprint");
+        }
+
+        sprint.getFeatures().add(feature);
+        sprintRepository.save(sprint);
+    }
+
+    public void desassociateFeature(Long sprintId, Long featureId) {
+        Sprint sprint = sprintUtilities.getSprintById(sprintId);
+        Feature feature = featureUtilities.getFeature(featureId);
+
+        if (!sprint.getFeatures().contains(feature)) {
+            throw new BusinessException("Feature does not associated with this sprint");
+        }
+
+        sprint.getFeatures().remove(feature);
+        sprintRepository.save(sprint);
+    }
+
+    public List<FeatureResponseDTO> getAssociatedFeatures(Long sprintId) {
+        Sprint sprint = sprintUtilities.getSprintById(sprintId);
+
+        return sprint.getFeatures().stream().map(featureMapper::entityToDto).toList();
     }
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.scrumflow.application.dto.filter.SprintFilterDTO;
 import com.scrumflow.application.dto.request.SprintRequestDTO;
+import com.scrumflow.application.dto.response.FeatureResponseDTO;
 import com.scrumflow.application.dto.response.SprintResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,7 +26,6 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/v1/sprints")
 public interface SprintApi {
 
-    @Secured("ROLE_MANAGER")
     @Operation(description = "Realiza o cadastro de uma print em um projeto")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -51,4 +51,21 @@ public interface SprintApi {
     @GetMapping("/{sprintId}")
     @ResponseStatus(HttpStatus.OK)
     SprintResponseDTO getSprintById(@PathVariable Long sprintId);
+
+    @Operation(description = "Associa uma feature em uma sprint")
+    @PostMapping("/{sprintId}/features/{featureId}")
+    @ResponseStatus(HttpStatus.OK)
+    @Secured({"ROLE_PRODUCT_OWNER", "ROLE_PROJECT_MANAGER"})
+    void associateFeature(@PathVariable Long sprintId, @PathVariable Long featureId);
+
+    @Operation(description = "Desassocia uma feature em uma sprint")
+    @DeleteMapping("/{sprintId}/features/{featureId}")
+    @ResponseStatus(HttpStatus.OK)
+    @Secured({"ROLE_PRODUCT_OWNER", "ROLE_PROJECT_MANAGER"})
+    void desassociateFeature(@PathVariable Long sprintId, @PathVariable Long featureId);
+
+    @Operation(description = "Retorna uma lista de features que estão associadas na sprint")
+    @GetMapping("/{sprintId}/features")
+    @ResponseStatus(HttpStatus.OK)
+    List<FeatureResponseDTO> getAssociateFeatures(@PathVariable Long sprintId);
 }

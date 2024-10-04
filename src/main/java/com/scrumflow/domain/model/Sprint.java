@@ -54,13 +54,14 @@ public class Sprint {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
-    
+
     @ManyToMany
-    @JoinTable(name = "Sprint_features",
+    @JoinTable(
+            name = "Sprint_features",
             joinColumns = @JoinColumn(name = "sprint_id"),
             inverseJoinColumns = @JoinColumn(name = "features_id"))
     private List<Feature> features = new ArrayList<>();
-    
+
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;

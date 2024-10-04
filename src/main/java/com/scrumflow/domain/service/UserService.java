@@ -62,23 +62,14 @@ public class UserService {
         userRepository.save(newUser);
 
         return new LoginResponseDTO(
-                newUser.getName(),
-                newUser.getEmail(),
-                tokenService.generateToken(newUser),
-                userUtilities.getUserRoles(newUser));
+                newUser.getName(), newUser.getEmail(), tokenService.generateToken(newUser));
     }
 
     public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) {
         Optional<User> user = userRepository.findByEmail(loginRequestDTO.email());
 
         return user.filter(u -> passwordEncoder.matches(loginRequestDTO.password(), u.getPassword()))
-                .map(
-                        u ->
-                                new LoginResponseDTO(
-                                        u.getName(),
-                                        u.getEmail(),
-                                        tokenService.generateToken(u),
-                                        userUtilities.getUserRoles(u)))
+                .map(u -> new LoginResponseDTO(u.getName(), u.getEmail(), tokenService.generateToken(u)))
                 .orElseThrow(() -> new InvalidCredentialsException("Usuário ou senha inválidos"));
     }
 

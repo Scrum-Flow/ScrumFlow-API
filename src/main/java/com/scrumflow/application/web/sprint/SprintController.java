@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.scrumflow.application.dto.filter.SprintFilterDTO;
 import com.scrumflow.application.dto.request.SprintRequestDTO;
+import com.scrumflow.application.dto.response.FeatureResponseDTO;
 import com.scrumflow.application.dto.response.SprintResponseDTO;
 import com.scrumflow.domain.service.SprintService;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +39,20 @@ public class SprintController implements SprintApi {
     @Override
     public SprintResponseDTO getSprintById(Long sprintId) {
         return service.getSprintById(sprintId);
+    }
+
+    @Override
+    public void associateFeature(Long sprintId, Long featureId) {
+        service.associateFeature(sprintId, featureId);
+    }
+
+    @Override
+    public void desassociateFeature(Long sprintId, Long featureId) {
+        service.desassociateFeature(sprintId, featureId);
+    }
+
+    @Override
+    public List<FeatureResponseDTO> getAssociateFeatures(Long sprintId) {
+        return service.getAssociatedFeatures(sprintId);
     }
 }
