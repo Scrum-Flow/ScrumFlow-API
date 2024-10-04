@@ -41,10 +41,10 @@ public class Feature {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
-    
+
     @ManyToMany(mappedBy = "features")
     private List<Sprint> sprints = new ArrayList<>();
-    
+
     public Feature(Long id, String name, String description, Project project) {
         this.id = id;
         this.name = name;
