@@ -10,11 +10,14 @@ import org.springframework.stereotype.Service;
 import com.scrumflow.application.dto.request.LoginRequestDTO;
 import com.scrumflow.application.dto.request.RegisterRequestDTO;
 import com.scrumflow.application.dto.response.LoginResponseDTO;
+import com.scrumflow.application.dto.response.ProjectResponseDTO;
 import com.scrumflow.application.dto.response.UserResponseDTO;
 import com.scrumflow.domain.exception.BadRequestException;
 import com.scrumflow.domain.exception.InvalidCredentialsException;
+import com.scrumflow.domain.mapper.ProjectMapper;
 import com.scrumflow.domain.mapper.UserMapper;
 import com.scrumflow.domain.model.Role;
+import com.scrumflow.domain.model.Team;
 import com.scrumflow.domain.model.User;
 import com.scrumflow.domain.service.utilities.UserUtilities;
 import com.scrumflow.infrastructure.config.security.TokenService;
@@ -36,6 +39,7 @@ public class UserService {
     private final UserUtilities userUtilities;
 
     private final UserMapper userMapper = Mappers.getMapper(UserMapper.class);
+    private final ProjectMapper projectMapper = Mappers.getMapper(ProjectMapper.class);
     private final RoleRepository roleRepository;
 
     public LoginResponseDTO registerUser(RegisterRequestDTO registerRequestDTO) {
@@ -113,5 +117,11 @@ public class UserService {
 
     public List<UserResponseDTO> findAllUsers() {
         return userRepository.findAll().stream().map(userMapper::entityToDto).toList();
+    }
+
+    public List<ProjectResponseDTO> findUserProjects(Long userId) {
+        User user = userUtilities.getUserById(userId);
+
+        return user.getTeams().stream().map(Team::getProject).map(projectMapper::entityToDto).toList();
     }
 }

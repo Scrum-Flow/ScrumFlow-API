@@ -1,7 +1,8 @@
-package com.scrumflow.domain.model;
+package com.scrumflow.infrastructure.model;
 
 import java.time.LocalDateTime;
 
+import com.scrumflow.domain.model.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

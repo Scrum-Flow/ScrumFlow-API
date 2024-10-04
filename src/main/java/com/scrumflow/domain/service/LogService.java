@@ -2,8 +2,8 @@ package com.scrumflow.domain.service;
 
 import org.springframework.stereotype.Service;
 
-import com.scrumflow.domain.model.Log;
 import com.scrumflow.domain.service.utilities.UserUtilities;
+import com.scrumflow.infrastructure.model.Log;
 import com.scrumflow.infrastructure.repository.LogRepository;
 import lombok.RequiredArgsConstructor;
 
