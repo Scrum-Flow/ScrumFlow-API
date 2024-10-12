@@ -28,6 +28,10 @@ spring:
 api:
   security:
     token_secret:
+  log:
+    cleanup:
+      retention-period:
+      job-interval:
       
 info:
   app:
