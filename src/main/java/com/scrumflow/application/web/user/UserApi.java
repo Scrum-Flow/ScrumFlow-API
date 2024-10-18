@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.scrumflow.application.dto.response.ProjectResponseDTO;
+import com.scrumflow.application.dto.response.RoleResponseDTO;
 import com.scrumflow.application.dto.response.UserResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,4 +35,9 @@ public interface UserApi {
     @PutMapping("/{userId}")
     @ResponseStatus(HttpStatus.OK)
     UserResponseDTO updateUser(@PathVariable("userId") Long userId, @RequestBody List<Long> roleIds);
+
+    @Operation(description = "Retorna uma lista com todas as roles do sistema")
+    @GetMapping("/roles")
+    @ResponseStatus(HttpStatus.OK)
+    List<RoleResponseDTO> findRoles();
 }

@@ -12,7 +12,9 @@ import com.scrumflow.application.dto.request.LoginRequestDTO;
 import com.scrumflow.application.dto.request.RegisterRequestDTO;
 import com.scrumflow.application.dto.response.LoginResponseDTO;
 import com.scrumflow.application.dto.response.ProjectResponseDTO;
+import com.scrumflow.application.dto.response.RoleResponseDTO;
 import com.scrumflow.application.dto.response.UserResponseDTO;
+import com.scrumflow.domain.enums.RoleType;
 import com.scrumflow.domain.exception.BadRequestException;
 import com.scrumflow.domain.exception.InvalidCredentialsException;
 import com.scrumflow.domain.mapper.ProjectMapper;
@@ -63,6 +65,7 @@ public class UserService {
         newUser.setName(registerRequestDTO.name());
         newUser.setEmail(registerRequestDTO.email());
         newUser.setPassword(passwordEncoder.encode(registerRequestDTO.password()));
+        newUser.getRoles().add(roleRepository.findByName(RoleType.USER).get());
 
         userRepository.save(newUser);
 
@@ -141,5 +144,11 @@ public class UserService {
         User user = userUtilities.getUserById(userId);
 
         return user.getTeams().stream().map(Team::getProject).map(projectMapper::entityToDto).toList();
+    }
+
+    public List<RoleResponseDTO> getRoles() {
+        return roleRepository.findAll().stream()
+                .map(r -> new RoleResponseDTO(r.getId(), r.getName().name()))
+                .toList();
     }
 }

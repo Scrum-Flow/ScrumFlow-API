@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scrumflow.application.dto.response.ProjectResponseDTO;
+import com.scrumflow.application.dto.response.RoleResponseDTO;
 import com.scrumflow.application.dto.response.UserResponseDTO;
 import com.scrumflow.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -28,5 +29,10 @@ public class UserController implements UserApi {
     @Override
     public UserResponseDTO updateUser(Long userId, List<Long> roleIds) {
         return userService.updateUser(userId, roleIds);
+    }
+
+    @Override
+    public List<RoleResponseDTO> findRoles() {
+        return userService.getRoles();
     }
 }
