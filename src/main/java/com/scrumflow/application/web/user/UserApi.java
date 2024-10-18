@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -27,4 +29,9 @@ public interface UserApi {
     @GetMapping("/{userId}/projects")
     @ResponseStatus(HttpStatus.OK)
     List<ProjectResponseDTO> findUserProjects(@PathVariable("userId") Long userId);
+
+    @Operation(description = "Atualiza um usuário")
+    @PutMapping("/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    UserResponseDTO updateUser(@PathVariable("userId") Long userId, @RequestBody List<Long> roleIds);
 }

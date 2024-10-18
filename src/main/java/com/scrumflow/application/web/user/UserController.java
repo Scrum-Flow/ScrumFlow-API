@@ -24,4 +24,9 @@ public class UserController implements UserApi {
     public List<ProjectResponseDTO> findUserProjects(Long userId) {
         return userService.findUserProjects(userId);
     }
+
+    @Override
+    public UserResponseDTO updateUser(Long userId, List<Long> roleIds) {
+        return userService.updateUser(userId, roleIds);
+    }
 }

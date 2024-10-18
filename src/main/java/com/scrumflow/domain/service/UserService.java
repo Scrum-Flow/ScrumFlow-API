@@ -3,6 +3,7 @@ package com.scrumflow.domain.service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,10 +38,10 @@ public class UserService {
     private final TokenService tokenService;
 
     private final UserUtilities userUtilities;
+    private final RoleRepository roleRepository;
 
     private final UserMapper userMapper = Mappers.getMapper(UserMapper.class);
     private final ProjectMapper projectMapper = Mappers.getMapper(ProjectMapper.class);
-    private final RoleRepository roleRepository;
 
     public LoginResponseDTO registerUser(RegisterRequestDTO registerRequestDTO) {
 
@@ -66,17 +67,33 @@ public class UserService {
         userRepository.save(newUser);
 
         return new LoginResponseDTO(
-                newUser.getName(), newUser.getEmail(), tokenService.generateToken(newUser));
+                userMapper.entityToDto(newUser), tokenService.generateToken(newUser));
     }
 
     public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) {
         Optional<User> user = userRepository.findByEmail(loginRequestDTO.email());
 
         return user.filter(u -> passwordEncoder.matches(loginRequestDTO.password(), u.getPassword()))
-                .map(u -> new LoginResponseDTO(u.getName(), u.getEmail(), tokenService.generateToken(u)))
+                .map(u -> new LoginResponseDTO(userMapper.entityToDto(u), tokenService.generateToken(u)))
                 .orElseThrow(() -> new InvalidCredentialsException("Usuário ou senha inválidos"));
     }
 
+    public UserResponseDTO updateUser(Long userId, List<Long> roleIds) {
+        User u = userUtilities.getUserById(userId);
+
+        u.setRoles(
+                roleIds.stream()
+                        .map(
+                                roleId ->
+                                        roleRepository
+                                                .findById(roleId)
+                                                .orElseThrow(() -> new RuntimeException("Role not found: " + roleId)))
+                        .collect(Collectors.toList()));
+
+        return userMapper.entityToDto(userRepository.save(u));
+    }
+
+    @Deprecated
     public String assignRoleToUser(Long userId, Long roleId) {
         User user = userUtilities.getUserById(userId);
         Role role = userUtilities.getRoleById(roleId);
@@ -96,6 +113,7 @@ public class UserService {
         return "Role adicionada com sucesso";
     }
 
+    @Deprecated
     public String removeRoleFromUser(Long userId, Long roleId) {
         User user = userUtilities.getUserById(userId);
         Role role = userUtilities.getRoleById(roleId);

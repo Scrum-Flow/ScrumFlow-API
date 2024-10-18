@@ -20,19 +20,14 @@ public class LogCleanupService {
     @Scheduled(fixedRateString = "${api.log.cleanup.job-interval}")
     public void cleanupOldLogs() {
         int retentionPolicy = logRetentionPolicy.getCleanupRetentionPeriod();
-        
-        if ( retentionPolicy > 0 )
-        {
-            LocalDateTime cutOffDate = LocalDateTime.now().minusDays( retentionPolicy );
-            
-            try
-            {
+
+        if (retentionPolicy > 0) {
+            LocalDateTime cutOffDate = LocalDateTime.now().minusDays(retentionPolicy);
+
+            try {
                 logRepository.deleteLogsByDateBefore(cutOffDate);
-            } 
-            
-            catch (Exception e) 
-            {
-                throw new RuntimeException("Error deleting old logs", e);    
+            } catch (Exception e) {
+                throw new RuntimeException("Error deleting old logs", e);
             }
         }
     }

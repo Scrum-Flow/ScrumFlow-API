@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.scrumflow.application.dto.response.RoleDTO;
+import com.scrumflow.application.dto.response.RoleResponseDTO;
 import com.scrumflow.domain.enums.RoleType;
 import com.scrumflow.domain.exception.NotFoundException;
 import com.scrumflow.domain.model.Role;
@@ -45,7 +45,9 @@ public class UserUtilities {
                 .orElseThrow(() -> new NotFoundException("Não foi possível encontrar a role " + name));
     }
 
-    public List<RoleDTO> getUserRoles(User user) {
-        return user.getRoles().stream().map(r -> new RoleDTO(r.getName().name())).toList();
+    public List<RoleResponseDTO> getUserRoles(User user) {
+        return user.getRoles().stream()
+                .map(r -> new RoleResponseDTO(r.getId(), r.getName().name()))
+                .toList();
     }
 }

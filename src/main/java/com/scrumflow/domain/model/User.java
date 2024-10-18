@@ -1,8 +1,10 @@
 package com.scrumflow.domain.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -61,7 +63,7 @@ public class User implements UserDetails {
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "roles_id"))
-    private Set<Role> roles = new LinkedHashSet<>();
+    private List<Role> roles = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {
