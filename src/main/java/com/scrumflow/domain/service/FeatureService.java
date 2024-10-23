@@ -51,4 +51,10 @@ public class FeatureService {
         final var feature = featureUtilities.getFeature(featureId);
         featureRepository.delete(feature);
     }
+
+    public List<FeatureResponseDTO> findAllFeaturesWithoutSprints() {
+        return featureRepository.findAllBySprintsNull().stream()
+                .map(featureMapper::entityToDto)
+                .toList();
+    }
 }

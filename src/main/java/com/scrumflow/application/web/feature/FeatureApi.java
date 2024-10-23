@@ -39,8 +39,14 @@ public interface FeatureApi {
     void updateFeature(
             @PathVariable Long featureId, @Valid @RequestBody FeatureRequestDTO featureRequestDTO);
 
-    @Operation(description = "Permite a inatiuvação de determinada funcionalidade")
+    @Operation(description = "Permite a inativação de determinada funcionalidade")
     @DeleteMapping("/{featureId}")
     @ResponseStatus(HttpStatus.OK)
     void deleteFeature(@PathVariable Long featureId);
+
+    @Operation(
+            description = "Retorna uma lista com as features que ainda não foram vinculadas em sprints")
+    @GetMapping("/nosprint")
+    @ResponseStatus(HttpStatus.OK)
+    List<FeatureResponseDTO> findAllFeaturesWithoutSprints();
 }

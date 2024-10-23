@@ -12,4 +12,6 @@ import com.scrumflow.domain.model.Feature;
 public interface FeatureRepository extends JpaRepository<Feature, Long> {
 
     List<Feature> findAll(Specification<Feature> spec);
+
+    List<Feature> findAllBySprintsNull();
 }
