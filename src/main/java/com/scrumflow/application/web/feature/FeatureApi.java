@@ -43,10 +43,4 @@ public interface FeatureApi {
     @DeleteMapping("/{featureId}")
     @ResponseStatus(HttpStatus.OK)
     void deleteFeature(@PathVariable Long featureId);
-
-    @Operation(
-            description = "Retorna uma lista com as features que ainda não foram vinculadas em sprints")
-    @GetMapping("/nosprint")
-    @ResponseStatus(HttpStatus.OK)
-    List<FeatureResponseDTO> findAllFeaturesWithoutSprints();
 }

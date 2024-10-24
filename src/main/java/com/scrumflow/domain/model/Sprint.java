@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.scrumflow.domain.enums.SprintStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -60,6 +61,7 @@ public class Sprint {
             name = "Sprint_features",
             joinColumns = @JoinColumn(name = "sprint_id"),
             inverseJoinColumns = @JoinColumn(name = "features_id"))
+    @JsonBackReference
     private List<Feature> features = new ArrayList<>();
 
     @ManyToOne

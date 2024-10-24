@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -43,6 +44,7 @@ public class Feature {
     private Project project;
 
     @ManyToMany(mappedBy = "features")
+    @JsonManagedReference
     private List<Sprint> sprints = new ArrayList<>();
 
     public Feature(Long id, String name, String description, Project project) {

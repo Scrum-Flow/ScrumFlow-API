@@ -40,9 +40,4 @@ public class FeatureController implements FeatureApi {
     public void deleteFeature(Long featureId) {
         featureService.deleteFeature(featureId);
     }
-
-    @Override
-    public List<FeatureResponseDTO> findAllFeaturesWithoutSprints() {
-        return featureService.findAllFeaturesWithoutSprints();
-    }
 }
