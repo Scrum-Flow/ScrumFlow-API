@@ -21,8 +21,8 @@ public class TeamController implements TeamApi {
     }
 
     @Override
-    public void deleteTeam(Long teamId) {
-        teamService.deleteTeam(teamId);
+    public void deleteTeam(Long id) {
+        teamService.deleteTeam(id);
     }
 
     @Override

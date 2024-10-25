@@ -31,7 +31,7 @@ public interface TeamApi {
 
     @Operation(description = "Realiza a remoção de um time no sistema")
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     void deleteTeam(@PathVariable Long id);
 
     @Operation(description = "Realiza a atualização do Time no sistema")
