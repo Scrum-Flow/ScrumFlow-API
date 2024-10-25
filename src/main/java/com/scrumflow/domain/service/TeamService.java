@@ -101,4 +101,8 @@ public class TeamService {
 
         return "Usuário removido do time com sucesso!";
     }
+
+    public TeamResponseDTO getTeam(Long id) {
+        return teamMapper.entityToDto(teamUtilities.getTeam(id));
+    }
 }

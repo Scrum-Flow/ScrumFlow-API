@@ -35,6 +35,10 @@ public class TeamController implements TeamApi {
         return teamService.getTeams(projectId, name);
     }
 
+    public TeamResponseDTO getTeam(Long id) {
+        return teamService.getTeam(id);
+    }
+
     @Override
     public String associateUserToTeam(Long teamId, Long userId) {
         return teamService.associateUserToTeam(teamId, userId);

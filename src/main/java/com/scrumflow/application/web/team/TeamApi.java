@@ -47,6 +47,11 @@ public interface TeamApi {
     List<TeamResponseDTO> getTeams(
             @RequestParam(required = false) Long projectId, @RequestParam(required = false) String name);
 
+    @Operation(description = "Obtem um time por ID.")
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    TeamResponseDTO getTeam(@PathVariable Long id);
+
     @Operation(description = "Adiciona um usuário em um time")
     @PostMapping("/{teamId}/users/{userId}")
     @ResponseStatus(HttpStatus.OK)
