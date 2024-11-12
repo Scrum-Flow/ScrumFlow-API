@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.scrumflow.application.dto.request.ProjectRequestDTO;
+import com.scrumflow.application.dto.response.ProjectDetailsResponseDTO;
 import com.scrumflow.application.dto.response.ProjectResponseDTO;
 import com.scrumflow.domain.mapper.ProjectMapper;
 import com.scrumflow.domain.service.utilities.ProjectUtilities;
@@ -33,6 +34,10 @@ public class ProjectService {
 
     public ProjectResponseDTO findProjectById(Long projectId) {
         return projectMapper.entityToDto(projectUtilities.getProject(projectId));
+    }
+
+    public ProjectDetailsResponseDTO findProjectDetailsById(Long projectId) {
+        return projectMapper.entityToProjectDetailsDto(projectUtilities.getProject(projectId));
     }
 
     public void updateProject(Long projectId, ProjectRequestDTO projectRequestDTO) {

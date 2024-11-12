@@ -47,6 +47,9 @@ public class Feature {
     @JsonManagedReference
     private List<Sprint> sprints = new ArrayList<>();
 
+    @OneToMany(mappedBy = "feature")
+    private List<Task> tasks = new ArrayList<>();
+
     public Feature(Long id, String name, String description, Project project) {
         this.id = id;
         this.name = name;

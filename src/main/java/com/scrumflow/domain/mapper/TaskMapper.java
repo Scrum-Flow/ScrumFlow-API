@@ -1,5 +1,7 @@
 package com.scrumflow.domain.mapper;
 
+import java.util.List;
+
 import com.scrumflow.application.dto.request.TaskRequestDTO;
 import com.scrumflow.application.dto.response.TaskResponseDTO;
 import com.scrumflow.domain.model.Task;
@@ -12,6 +14,8 @@ public interface TaskMapper {
     @Mapping(source = "feature.name", target = "featureName")
     @Mapping(source = "assignedTo.name", target = "assignedToUserName", defaultValue = "null")
     TaskResponseDTO entityToDto(Task task);
+
+    List<TaskResponseDTO> entityToDto(List<Task> tasks);
 
     @Mapping(source = "assignedToUserId", target = "assignedTo", qualifiedByName = "mapAssignedTo")
     Task dtoToEntity(TaskRequestDTO taskRequestDTO);

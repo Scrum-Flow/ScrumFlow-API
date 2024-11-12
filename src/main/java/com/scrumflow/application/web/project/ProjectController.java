@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scrumflow.application.dto.request.ProjectRequestDTO;
+import com.scrumflow.application.dto.response.ProjectDetailsResponseDTO;
 import com.scrumflow.application.dto.response.ProjectResponseDTO;
 import com.scrumflow.domain.service.ProjectService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,11 @@ public class ProjectController implements ProjectApi {
     @Override
     public ProjectResponseDTO findProjectById(Long projectId) {
         return projectService.findProjectById(projectId);
+    }
+
+    @Override
+    public ProjectDetailsResponseDTO findProjectDetailsById(Long projectId) {
+        return projectService.findProjectDetailsById(projectId);
     }
 
     @Override

@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import com.scrumflow.application.dto.request.ProjectRequestDTO;
+import com.scrumflow.application.dto.response.ProjectDetailsResponseDTO;
 import com.scrumflow.application.dto.response.ProjectResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,10 +27,16 @@ public interface ProjectApi {
     @ResponseStatus(HttpStatus.OK)
     List<ProjectResponseDTO> findAllProjects();
 
-    @Operation(description = "Retorna uma lista com os projetos cadastrados no sistema")
+    @Operation(description = "Retorna um projeto a partir do ID")
     @GetMapping("/{projectId}")
     @ResponseStatus(HttpStatus.OK)
     ProjectResponseDTO findProjectById(@PathVariable Long projectId);
+
+    @Operation(
+            description = "Retorna um projeto junto com suas sprints, funcionalidades e tarefas a partir do ID")
+    @GetMapping("/{projectId}/details")
+    @ResponseStatus(HttpStatus.OK)
+    ProjectDetailsResponseDTO findProjectDetailsById(@PathVariable Long projectId);
 
     @Operation(description = "Permite a edição de determinado projeto")
     @PutMapping("/{projectId}")
