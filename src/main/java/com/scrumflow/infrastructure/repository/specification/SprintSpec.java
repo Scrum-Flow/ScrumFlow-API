@@ -37,6 +37,13 @@ public class SprintSpec {
                                         "%" + filterDTO.name().toLowerCase() + "%"));
             }
 
+            if (filterDTO.projectId() != null) {
+                predicate =
+                        criteriaBuilder.and(
+                                predicate,
+                                criteriaBuilder.equal(root.get("project").get("id"), filterDTO.projectId()));
+            }
+
             return predicate;
         };
     }
