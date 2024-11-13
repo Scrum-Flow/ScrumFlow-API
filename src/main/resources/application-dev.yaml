@@ -37,3 +37,9 @@ info:
   app:
     name:
     description:
+
+email:
+  host:
+  port:
+  username:
+  password:

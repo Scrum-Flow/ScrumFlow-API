@@ -6,11 +6,13 @@ import org.springframework.stereotype.Service;
 
 import com.scrumflow.application.dto.request.TaskRequestDTO;
 import com.scrumflow.application.dto.response.TaskResponseDTO;
+import com.scrumflow.domain.dto.EmailDTO;
 import com.scrumflow.domain.enums.TaskStatus;
 import com.scrumflow.domain.mapper.TaskMapper;
 import com.scrumflow.domain.model.Task;
 import com.scrumflow.domain.service.utilities.FeatureUtilities;
 import com.scrumflow.domain.service.utilities.TaskUtilities;
+import com.scrumflow.domain.service.utilities.UserUtilities;
 import com.scrumflow.infrastructure.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
@@ -22,6 +24,8 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final TaskUtilities taskUtilities;
     private final FeatureUtilities featureUtilities;
+    private final EmailService emailService;
+    private final UserUtilities userUtilities;
     private final TaskMapper taskMapper = Mappers.getMapper(TaskMapper.class);
 
     public TaskResponseDTO createTask(TaskRequestDTO taskRequestDTO) {
@@ -45,9 +49,21 @@ public class TaskService {
     }
 
     public void updateTask(Long taskId, TaskRequestDTO taskRequestDTO) {
-        Task task = taskUtilities.getTask(taskId);
+        var task = taskUtilities.getTask(taskId);
         taskUtilities.validateTaskFields(task, taskRequestDTO);
+
+        var status = task.getStatus();
+
         taskMapper.atualizaDeDto(taskRequestDTO, task);
+        if (!status.equals(taskRequestDTO.status())) {
+            emailService.sendEmail(
+                    new EmailDTO(
+                            status,
+                            task.getStatus(),
+                            userUtilities.getUserById(task.getAssignedTo().getId()),
+                            task.getName()));
+        }
+
         taskRepository.save(task);
     }
 
