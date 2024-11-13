@@ -41,6 +41,8 @@ public class User implements UserDetails {
 
     private String password;
 
+    private Boolean sendNotifications;
+
     @Column(
             name = "created_at",
             updatable = false,

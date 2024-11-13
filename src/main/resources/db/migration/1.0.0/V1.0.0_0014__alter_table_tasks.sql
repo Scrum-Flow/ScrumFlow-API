@@ -3,7 +3,7 @@ SET @column_exists := (
     FROM information_schema.columns
     WHERE table_name = 'task'
       AND column_name = 'status'
-      AND table_schema = 'nome_do_banco'
+      AND table_schema = 'scrumflow'
 );
 
 SET @alter_query := IF(@column_exists = 0, 'ALTER TABLE task ADD COLUMN status VARCHAR(50) NOT NULL DEFAULT "NOT_STARTED";', 'SELECT 1;');

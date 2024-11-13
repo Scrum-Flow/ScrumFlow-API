@@ -32,6 +32,11 @@ public class UserController implements UserApi {
     }
 
     @Override
+    public void updateUserNotifications(Long userId, Boolean sendNotifications) {
+        userService.updateUserNotifications(userId, sendNotifications);
+    }
+
+    @Override
     public List<RoleResponseDTO> findRoles() {
         return userService.getRoles();
     }

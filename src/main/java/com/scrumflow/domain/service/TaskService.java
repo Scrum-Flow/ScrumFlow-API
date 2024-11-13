@@ -53,15 +53,12 @@ public class TaskService {
         taskUtilities.validateTaskFields(task, taskRequestDTO);
 
         var status = task.getStatus();
+        var user = userUtilities.getUserById(task.getAssignedTo().getId());
 
         taskMapper.atualizaDeDto(taskRequestDTO, task);
-        if (!status.equals(taskRequestDTO.status())) {
-            emailService.sendEmail(
-                    new EmailDTO(
-                            status,
-                            task.getStatus(),
-                            userUtilities.getUserById(task.getAssignedTo().getId()),
-                            task.getName()));
+        if (!status.equals(taskRequestDTO.status())
+                && Boolean.TRUE.equals(user.getSendNotifications())) {
+            emailService.sendEmail(new EmailDTO(status, task.getStatus(), user, task.getName()));
         }
 
         taskRepository.save(task);

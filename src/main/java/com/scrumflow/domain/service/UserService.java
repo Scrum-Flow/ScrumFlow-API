@@ -65,6 +65,7 @@ public class UserService {
         newUser.setName(registerRequestDTO.name());
         newUser.setEmail(registerRequestDTO.email());
         newUser.setPassword(passwordEncoder.encode(registerRequestDTO.password()));
+        newUser.setSendNotifications(false);
         newUser.getRoles().add(roleRepository.findByName(RoleType.USER).get());
 
         userRepository.save(newUser);
@@ -94,6 +95,13 @@ public class UserService {
                         .collect(Collectors.toList()));
 
         return userMapper.entityToDto(userRepository.save(u));
+    }
+
+    public void updateUserNotifications(Long userId, Boolean sendNotifications) {
+        User user = userUtilities.getUserById(userId);
+
+        user.setSendNotifications(sendNotifications);
+        userRepository.save(user);
     }
 
     @Deprecated

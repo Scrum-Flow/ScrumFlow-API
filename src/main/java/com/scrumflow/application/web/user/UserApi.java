@@ -4,12 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 import com.scrumflow.application.dto.response.ProjectResponseDTO;
 import com.scrumflow.application.dto.response.RoleResponseDTO;
@@ -35,6 +30,12 @@ public interface UserApi {
     @PutMapping("/{userId}")
     @ResponseStatus(HttpStatus.OK)
     UserResponseDTO updateUser(@PathVariable("userId") Long userId, @RequestBody List<Long> roleIds);
+
+    @Operation(description = "Atualiza um usuário")
+    @PatchMapping("/{userId}/notificacoes")
+    @ResponseStatus(HttpStatus.OK)
+    void updateUserNotifications(
+            @PathVariable("userId") Long userId, @RequestBody Boolean sendNotifications);
 
     @Operation(description = "Retorna uma lista com todas as roles do sistema")
     @GetMapping("/roles")
