@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.scrumflow.application.dto.request.TaskRequestDTO;
 import com.scrumflow.application.dto.response.TaskResponseDTO;
+import com.scrumflow.domain.enums.TaskStatus;
 import com.scrumflow.domain.mapper.TaskMapper;
 import com.scrumflow.domain.model.Task;
 import com.scrumflow.domain.service.utilities.FeatureUtilities;
@@ -26,6 +27,7 @@ public class TaskService {
     public TaskResponseDTO createTask(TaskRequestDTO taskRequestDTO) {
         Task task = taskMapper.dtoToEntity(taskRequestDTO);
         taskUtilities.validateTaskFields(task, taskRequestDTO);
+        task.setStatus(TaskStatus.NOT_STARTED);
         task = taskRepository.save(task);
         return taskMapper.entityToDto(task);
     }

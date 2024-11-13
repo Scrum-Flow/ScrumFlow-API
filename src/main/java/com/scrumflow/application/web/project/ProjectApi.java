@@ -33,7 +33,8 @@ public interface ProjectApi {
     ProjectResponseDTO findProjectById(@PathVariable Long projectId);
 
     @Operation(
-            description = "Retorna um projeto junto com suas sprints, funcionalidades e tarefas a partir do ID")
+            description =
+                    "Retorna um projeto junto com suas sprints, funcionalidades e tarefas a partir do ID")
     @GetMapping("/{projectId}/details")
     @ResponseStatus(HttpStatus.OK)
     ProjectDetailsResponseDTO findProjectDetailsById(@PathVariable Long projectId);

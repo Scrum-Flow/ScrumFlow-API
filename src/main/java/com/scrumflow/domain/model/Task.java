@@ -2,6 +2,7 @@ package com.scrumflow.domain.model;
 
 import java.time.LocalDateTime;
 
+import com.scrumflow.domain.enums.TaskStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,6 +26,10 @@ public class Task {
 
     @Column(name = "estimate_points")
     private Integer estimatePoints;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TaskStatus status;
 
     @Column(
             name = "created_at",
