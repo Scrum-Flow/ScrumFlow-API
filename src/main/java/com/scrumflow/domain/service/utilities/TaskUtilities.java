@@ -1,5 +1,7 @@
 package com.scrumflow.domain.service.utilities;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import com.scrumflow.application.dto.request.TaskRequestDTO;
@@ -7,7 +9,9 @@ import com.scrumflow.domain.exception.BusinessException;
 import com.scrumflow.domain.exception.NotFoundException;
 import com.scrumflow.domain.model.Feature;
 import com.scrumflow.domain.model.Task;
+import com.scrumflow.domain.model.TaskHistory;
 import com.scrumflow.domain.model.User;
+import com.scrumflow.infrastructure.repository.TaskHistoryRepository;
 import com.scrumflow.infrastructure.repository.TaskRepository;
 import com.scrumflow.infrastructure.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +23,11 @@ public class TaskUtilities {
     private final TaskRepository taskRepository;
     private final FeatureUtilities featureUtilities;
     private final UserRepository userRepository;
+    private final TaskHistoryRepository taskHistoryRepository;
+
+    public List<TaskHistory> getTaskHistoryByTask(Long taskId) {
+        return taskHistoryRepository.findAllByTaskId(taskId);
+    }
 
     public Task getTask(Long taskId) {
         return taskRepository
