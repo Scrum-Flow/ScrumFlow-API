@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.scrumflow.application.dto.request.ProjectKanbanColumnsRequestDTO;
 import com.scrumflow.application.dto.request.ProjectRequestDTO;
 import com.scrumflow.application.dto.response.ProjectDetailsResponseDTO;
 import com.scrumflow.application.dto.response.ProjectResponseDTO;
@@ -44,5 +45,10 @@ public class ProjectController implements ProjectApi {
     @Override
     public void deleteProject(Long projectId) {
         projectService.deleteProject(projectId);
+    }
+
+    @Override
+    public void updateProjectKanbanColumns(Long projectId, ProjectKanbanColumnsRequestDTO request) {
+        projectService.updateProjectKanbanColumns(projectId, request);
     }
 }
