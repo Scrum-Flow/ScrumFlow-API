@@ -1,13 +1,16 @@
 package com.scrumflow.domain.service;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.scrumflow.application.dto.request.ProjectKanbanColumnsRequestDTO;
 import com.scrumflow.application.dto.request.ProjectRequestDTO;
 import com.scrumflow.application.dto.response.ProjectDetailsResponseDTO;
 import com.scrumflow.application.dto.response.ProjectResponseDTO;
 import com.scrumflow.domain.mapper.ProjectMapper;
+import com.scrumflow.domain.model.ProjectKanbanColumn;
 import com.scrumflow.domain.service.utilities.ProjectUtilities;
 import com.scrumflow.infrastructure.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +53,35 @@ public class ProjectService {
     public void deleteProject(Long projectId) {
         final var project = projectUtilities.getProject(projectId);
         project.setActive(false);
+        projectRepository.save(project);
+    }
+
+    public void updateProjectKanbanColumns(Long projectId, ProjectKanbanColumnsRequestDTO request) {
+        var project = projectUtilities.getProject(projectId);
+        var columns = request.columns();
+
+        Iterator<ProjectKanbanColumn> iterator = project.getKanbanColumns().iterator();
+        while (iterator.hasNext()) {
+            ProjectKanbanColumn projectKanbanColumn = iterator.next();
+            if (!columns.contains(projectKanbanColumn.getColumnName())) {
+                iterator.remove();
+                project.removeKanbanColumn(projectKanbanColumn);
+            }
+        }
+
+        columns.forEach(
+                columnName -> {
+                    boolean columnExists =
+                            project.getKanbanColumns().stream()
+                                    .anyMatch(
+                                            projectKanbanColumn ->
+                                                    projectKanbanColumn.getColumnName().equals(columnName));
+
+                    if (!columnExists) {
+                        project.addKanbanColumn(new ProjectKanbanColumn(null, project, columnName));
+                    }
+                });
+
         projectRepository.save(project);
     }
 }

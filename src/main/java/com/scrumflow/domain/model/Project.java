@@ -52,6 +52,33 @@ public class Project {
     @OneToMany(mappedBy = "project", orphanRemoval = true)
     private List<Sprint> sprints = new ArrayList<>();
 
+    @OneToMany(
+            mappedBy = "project",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<ProjectKanbanColumn> kanbanColumns = new ArrayList<>();
+
+    public void addKanbanColumn(ProjectKanbanColumn column) {
+        if (column == null) {
+            throw new IllegalArgumentException("Kanban column cannot be null");
+        }
+        if (!kanbanColumns.contains(column)) {
+            kanbanColumns.add(column);
+            column.setProject(this);
+        }
+    }
+
+    public void removeKanbanColumn(ProjectKanbanColumn column) {
+        if (column == null) {
+            throw new IllegalArgumentException("Kanban column cannot be null");
+        }
+        if (kanbanColumns.contains(column)) {
+            kanbanColumns.remove(column);
+            column.setProject(null);
+        }
+    }
+
     public Project(
             Long id,
             String name,

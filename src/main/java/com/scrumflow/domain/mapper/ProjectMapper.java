@@ -4,6 +4,7 @@ import com.scrumflow.application.dto.request.ProjectRequestDTO;
 import com.scrumflow.application.dto.response.ProjectDetailsResponseDTO;
 import com.scrumflow.application.dto.response.ProjectResponseDTO;
 import com.scrumflow.domain.model.Project;
+import com.scrumflow.domain.model.ProjectKanbanColumn;
 import com.scrumflow.infrastructure.config.BaseMapperConfig;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -32,6 +33,8 @@ public interface ProjectMapper {
                 .name(project.getName())
                 .description(project.getDescription())
                 .sprints(sprintMapper.entityToSprintDetailsDTO(project.getSprints()))
+                .kanbanColumns(
+                        project.getKanbanColumns().stream().map(ProjectKanbanColumn::getColumnName).toList())
                 .build();
     }
 }

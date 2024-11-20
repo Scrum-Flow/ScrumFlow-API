@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import com.scrumflow.application.dto.request.ProjectKanbanColumnsRequestDTO;
 import com.scrumflow.application.dto.request.ProjectRequestDTO;
 import com.scrumflow.application.dto.response.ProjectDetailsResponseDTO;
 import com.scrumflow.application.dto.response.ProjectResponseDTO;
@@ -51,9 +52,16 @@ public interface ProjectApi {
     void updateProject(
             @PathVariable Long projectId, @Valid @RequestBody ProjectRequestDTO projectRequestDTO);
 
-    @Operation(description = "Permite a inatiuvação de determinado projeto")
+    @Operation(description = "Permite a inativação de determinado projeto")
     @DeleteMapping("/{projectId}")
     @ResponseStatus(HttpStatus.OK)
     @Secured({"ROLE_PROJECT_MANAGER"})
     void deleteProject(@PathVariable Long projectId);
+
+    @Operation(description = "Realiza o cadastro de um projeto no sistema")
+    @PostMapping("{projectId}/kanban-columns")
+    @ResponseStatus(HttpStatus.OK)
+    @Secured({"ROLE_PROJECT_MANAGER", "ROLE_PRODUCT_OWNER"})
+    void updateProjectKanbanColumns(
+            @PathVariable Long projectId, ProjectKanbanColumnsRequestDTO request);
 }
