@@ -4,6 +4,7 @@ public enum RoleType {
     ADMIN,
     PROJECT_MANAGER,
     PRODUCT_OWNER,
+    TEAM_MEMBER,
     USER;
 
     @Override
