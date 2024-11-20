@@ -69,7 +69,10 @@ public class SecurityConfiguration {
     static RoleHierarchy roleHierarchy() {
         return RoleHierarchyImpl.withDefaultRolePrefix()
                 .role(RoleType.ADMIN.name())
-                .implies(RoleType.PRODUCT_OWNER.name(), RoleType.PROJECT_MANAGER.name())
+                .implies(
+                        RoleType.PRODUCT_OWNER.name(),
+                        RoleType.PROJECT_MANAGER.name(),
+                        RoleType.TEAM_MEMBER.name())
                 .build();
     }
 }

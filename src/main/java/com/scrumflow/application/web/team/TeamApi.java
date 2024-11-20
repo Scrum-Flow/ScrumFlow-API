@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,16 +28,19 @@ public interface TeamApi {
     @Operation(description = "Realiza o cadastro de um time no sistema")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @Secured({"ROLE_PROJECT_MANAGER"})
     TeamResponseDTO createTeam(@RequestBody @Valid TeamRequestDTO teamRequestDTO);
 
     @Operation(description = "Realiza a remoção de um time no sistema")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @Secured({"ROLE_PROJECT_MANAGER"})
     void deleteTeam(@PathVariable Long id);
 
     @Operation(description = "Realiza a atualização do Time no sistema")
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @Secured({"ROLE_PROJECT_MANAGER"})
     TeamResponseDTO updateTeam(
             @PathVariable Long id, @RequestBody @Valid TeamRequestDTO teamRequestDTO);
 
@@ -44,20 +48,24 @@ public interface TeamApi {
             description = "Obtem todos os times podendo passar como parametro project_id ou um name.")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
+    @Secured({"ROLE_PROJECT_MANAGER"})
     List<TeamResponseDTO> getTeams(
             @RequestParam(required = false) Long projectId, @RequestParam(required = false) String name);
 
     @Operation(description = "Obtem um time por ID.")
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @Secured({"ROLE_PROJECT_MANAGER"})
     TeamResponseDTO getTeam(@PathVariable Long id);
 
     @Operation(description = "Adiciona um usuário em um time")
     @PostMapping("/{teamId}/users/{userId}")
     @ResponseStatus(HttpStatus.OK)
+    @Secured({"ROLE_PROJECT_MANAGER"})
     String associateUserToTeam(@PathVariable Long teamId, @PathVariable Long userId);
 
     @Operation(description = "Remove um usuário de um time")
     @DeleteMapping("/{teamId}/users/{userId}")
+    @Secured({"ROLE_PROJECT_MANAGER"})
     String disassociateUserFromTeam(@PathVariable Long teamId, @PathVariable Long userId);
 }

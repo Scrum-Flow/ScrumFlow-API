@@ -26,30 +26,35 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/v1/sprints")
 public interface SprintApi {
 
-    @Operation(description = "Realiza o cadastro de uma print em um projeto")
+    @Operation(description = "Realiza o cadastro de uma sprint em um projeto")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @Secured({"ROLE_PRODUCT_OWNER", "ROLE_PROJECT_MANAGER"})
     SprintResponseDTO createSprint(@Valid @RequestBody SprintRequestDTO sprintRequestDTO);
 
     @Operation(description = "Realiza a atualização de uma sprint no sistema")
     @PutMapping("/{sprintId}")
     @ResponseStatus(HttpStatus.OK)
+    @Secured({"ROLE_PRODUCT_OWNER", "ROLE_PROJECT_MANAGER"})
     SprintResponseDTO updateSprint(
             @PathVariable Long sprintId, @Valid @RequestBody SprintRequestDTO sprintRequestDTO);
 
     @Operation(description = "Remove uma sprint do projeto")
     @DeleteMapping("/{sprintId}")
     @ResponseStatus(HttpStatus.OK)
+    @Secured({"ROLE_PRODUCT_OWNER", "ROLE_PROJECT_MANAGER"})
     void deleteSprint(@PathVariable Long sprintId);
 
     @Operation(description = "Retorna uma lista de sprints de acordo com os filtros utilizados")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
+    @Secured({"ROLE_PRODUCT_OWNER", "ROLE_PROJECT_MANAGER", "ROLE_TEAM_MEMBER"})
     List<SprintResponseDTO> getSprints(@ParameterObject SprintFilterDTO sprintFilterDTO);
 
     @Operation(description = "Retorna uma sprint especifica")
     @GetMapping("/{sprintId}")
     @ResponseStatus(HttpStatus.OK)
+    @Secured({"ROLE_PRODUCT_OWNER", "ROLE_PROJECT_MANAGER", "ROLE_TEAM_MEMBER"})
     SprintResponseDTO getSprintById(@PathVariable Long sprintId);
 
     @Operation(description = "Associa uma feature em uma sprint")
@@ -67,5 +72,6 @@ public interface SprintApi {
     @Operation(description = "Retorna uma lista de features que estão associadas na sprint")
     @GetMapping("/{sprintId}/features")
     @ResponseStatus(HttpStatus.OK)
+    @Secured({"ROLE_PRODUCT_OWNER", "ROLE_PROJECT_MANAGER", "ROLE_TEAM_MEMBER"})
     List<FeatureResponseDTO> getAssociateFeatures(@PathVariable Long sprintId);
 }
