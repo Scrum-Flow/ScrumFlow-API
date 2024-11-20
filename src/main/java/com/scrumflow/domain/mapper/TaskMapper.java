@@ -3,8 +3,10 @@ package com.scrumflow.domain.mapper;
 import java.util.List;
 
 import com.scrumflow.application.dto.request.TaskRequestDTO;
+import com.scrumflow.application.dto.response.TaskHistoryResponseDTO;
 import com.scrumflow.application.dto.response.TaskResponseDTO;
 import com.scrumflow.domain.model.Task;
+import com.scrumflow.domain.model.TaskHistory;
 import com.scrumflow.domain.model.User;
 import org.mapstruct.*;
 
@@ -33,4 +35,10 @@ public interface TaskMapper {
     @Mapping(source = "featureId", target = "feature.id")
     @Mapping(source = "assignedToUserId", target = "assignedTo", qualifiedByName = "mapAssignedTo")
     void atualizaDeDto(TaskRequestDTO taskRequestDTO, @MappingTarget Task task);
+
+    List<TaskHistoryResponseDTO> taskHistoryToTaskHistoryResponseDTO(List<TaskHistory> taskHistory);
+
+    @Mapping(source = "user.name", target = "userName")
+    @Mapping(source = "task.id", target = "taskId")
+    TaskHistoryResponseDTO taskHistoryToTaskHistoryResponseDTO(TaskHistory taskHistory);
 }

@@ -8,6 +8,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import com.scrumflow.application.dto.request.TaskRequestDTO;
+import com.scrumflow.application.dto.response.TaskHistoryResponseDTO;
 import com.scrumflow.application.dto.response.TaskResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -46,4 +47,10 @@ public interface TaskApi {
     @ResponseStatus(HttpStatus.OK)
     @Secured({"ROLE_PRODUCT_OWNER", "ROLE_PROJECT_MANAGER", "ROLE_TEAM_MEMBER"})
     void deleteTask(@PathVariable Long taskId);
+
+    @Operation(description = "Lista o histórico de movimentações de uma tarefa")
+    @GetMapping("/{taskId}/history")
+    @ResponseStatus(HttpStatus.OK)
+    @Secured({"ROLE_PRODUCT_OWNER", "ROLE_PROJECT_MANAGER", "ROLE_TEAM_MEMBER"})
+    List<TaskHistoryResponseDTO> getTaskHistory(@PathVariable Long taskId);
 }
