@@ -1,9 +1,14 @@
+ALTER TABLE task
+    ADD status VARCHAR(255) NULL;
+
+ALTER TABLE task
+    MODIFY status VARCHAR(255) NOT NULL;
+    
 SET @column_exists := (
     SELECT COUNT(*)
     FROM information_schema.columns
     WHERE table_name = 'task'
       AND column_name = 'status'
-      AND table_schema = 'scrumflow'
 );
 
 SET @alter_query := IF(@column_exists = 0, 'ALTER TABLE task ADD COLUMN status VARCHAR(50) NOT NULL DEFAULT "NOT_STARTED";', 'SELECT 1;');
