@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.scrumflow.application.dto.filter.UserFilterDTO;
 import com.scrumflow.application.dto.response.ProjectResponseDTO;
 import com.scrumflow.application.dto.response.RoleResponseDTO;
 import com.scrumflow.application.dto.response.UserResponseDTO;
@@ -17,8 +18,8 @@ public class UserController implements UserApi {
     private final UserService userService;
 
     @Override
-    public List<UserResponseDTO> findAll() {
-        return userService.findAllUsers();
+    public List<UserResponseDTO> findAll(UserFilterDTO filter) {
+        return userService.findAllUsers(filter);
     }
 
     @Override

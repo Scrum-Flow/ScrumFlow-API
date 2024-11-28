@@ -2,6 +2,8 @@ package com.scrumflow.application.dto.response;
 
 import java.time.LocalDateTime;
 
+import com.scrumflow.domain.enums.TaskStatus;
+
 public record TaskResponseDTO(
         Long id,
         String name,
@@ -10,4 +12,5 @@ public record TaskResponseDTO(
         String featureName,
         String assignedToUserName,
         LocalDateTime createdAt,
-        LocalDateTime updatedAt) {}
+        LocalDateTime updatedAt,
+        TaskStatus status) {}

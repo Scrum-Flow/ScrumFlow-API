@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.scrumflow.application.dto.filter.UserFilterDTO;
 import com.scrumflow.application.dto.request.LoginRequestDTO;
 import com.scrumflow.application.dto.request.RegisterRequestDTO;
 import com.scrumflow.application.dto.response.LoginResponseDTO;
@@ -26,6 +27,7 @@ import com.scrumflow.domain.service.utilities.UserUtilities;
 import com.scrumflow.infrastructure.config.security.TokenService;
 import com.scrumflow.infrastructure.repository.RoleRepository;
 import com.scrumflow.infrastructure.repository.UserRepository;
+import com.scrumflow.infrastructure.repository.specification.UserSpecification;
 import com.scrumflow.infrastructure.utilities.RegisterValidator;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
@@ -144,8 +146,10 @@ public class UserService {
         return "Role removida com sucesso";
     }
 
-    public List<UserResponseDTO> findAllUsers() {
-        return userRepository.findAll().stream().map(userMapper::entityToDto).toList();
+    public List<UserResponseDTO> findAllUsers(UserFilterDTO filter) {
+        return userRepository.findAll(UserSpecification.filterBy(filter)).stream()
+                .map(userMapper::entityToDto)
+                .toList();
     }
 
     public List<ProjectResponseDTO> findUserProjects(Long userId) {

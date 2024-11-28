@@ -2,11 +2,13 @@ package com.scrumflow.application.web.user;
 
 import java.util.List;
 
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import com.scrumflow.application.dto.filter.UserFilterDTO;
 import com.scrumflow.application.dto.response.ProjectResponseDTO;
 import com.scrumflow.application.dto.response.RoleResponseDTO;
 import com.scrumflow.application.dto.response.UserResponseDTO;
@@ -20,8 +22,8 @@ public interface UserApi {
     @Operation(description = "Retorna uma lista com todos os usuários cadastrados no sistema")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    @Secured({"ROLE_ADMIN"})
-    List<UserResponseDTO> findAll();
+    @Secured({"ROLE_PROJECT_MANAGER"})
+    List<UserResponseDTO> findAll(@ParameterObject UserFilterDTO filter);
 
     @Operation(description = "Retorna uma lista com os projetos onde o usuário faz parte do time")
     @GetMapping("/{userId}/projects")
