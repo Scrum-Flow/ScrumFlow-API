@@ -59,6 +59,6 @@ public interface TaskApi {
     @Operation(description = "Atualiza o status de uma tarefa de forma simplificada")
     @PostMapping("/{taskId}/update")
     @ResponseStatus(HttpStatus.OK)
-    @Secured({"ROLE_TEAM_MEMBER"})
+    @Secured({"ROLE_PRODUCT_OWNER", "ROLE_PROJECT_MANAGER", "ROLE_TEAM_MEMBER"})
     void updateTaskStatus(@PathVariable Long taskId, @PathParam("status") TaskStatus status);
 }
