@@ -71,6 +71,21 @@ public class TaskService {
         taskRepository.save(task);
     }
 
+    public void updateTaskStatus(Long taskId, TaskStatus taskStatus) {
+        var task = taskUtilities.getTask(taskId);
+        var status = task.getStatus();
+        var user = userUtilities.getUserById(task.getAssignedTo().getId());
+
+        task.setStatus(taskStatus);
+
+        if (!status.equals(taskStatus) && Boolean.TRUE.equals(user.getSendNotifications())) {
+            emailService.sendEmail(new EmailDTO(status, task.getStatus(), user, task.getName()));
+        }
+
+        createTaskHistory(task, status);
+        taskRepository.save(task);
+    }
+
     private void createTaskHistory(Task task, TaskStatus oldStatus) {
         var userDetail = ContextUtil.obterUsuarioLogado();
         var user = userUtilities.getUserByEmail(userDetail.getUsername());

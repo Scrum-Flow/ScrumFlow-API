@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import com.scrumflow.application.dto.request.TaskRequestDTO;
 import com.scrumflow.application.dto.response.TaskHistoryResponseDTO;
 import com.scrumflow.application.dto.response.TaskResponseDTO;
+import com.scrumflow.domain.enums.TaskStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 
 @Tag(name = "Task", description = "Operações de Tarefa")
 @RequestMapping(value = "/api/v1/task", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -53,4 +55,10 @@ public interface TaskApi {
     @ResponseStatus(HttpStatus.OK)
     @Secured({"ROLE_PRODUCT_OWNER", "ROLE_PROJECT_MANAGER", "ROLE_TEAM_MEMBER"})
     List<TaskHistoryResponseDTO> getTaskHistory(@PathVariable Long taskId);
+
+    @Operation(description = "Atualiza o status de uma tarefa de forma simplificada")
+    @PostMapping("/{taskId}/update")
+    @ResponseStatus(HttpStatus.OK)
+    @Secured({"ROLE_TEAM_MEMBER"})
+    void updateTaskStatus(@PathVariable Long taskId, @PathParam("status") TaskStatus status);
 }

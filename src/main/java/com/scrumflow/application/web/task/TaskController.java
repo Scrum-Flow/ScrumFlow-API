@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import com.scrumflow.application.dto.request.TaskRequestDTO;
 import com.scrumflow.application.dto.response.TaskHistoryResponseDTO;
 import com.scrumflow.application.dto.response.TaskResponseDTO;
+import com.scrumflow.domain.enums.TaskStatus;
 import com.scrumflow.domain.service.TaskService;
 import lombok.RequiredArgsConstructor;
 
@@ -45,5 +46,10 @@ public class TaskController implements TaskApi {
     @Override
     public List<TaskHistoryResponseDTO> getTaskHistory(Long taskId) {
         return taskService.getTaskHistory(taskId);
+    }
+
+    @Override
+    public void updateTaskStatus(Long taskId, TaskStatus status) {
+        taskService.updateTaskStatus(taskId, status);
     }
 }
