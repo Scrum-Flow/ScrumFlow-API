@@ -13,6 +13,7 @@ import com.scrumflow.domain.exception.NotFoundException;
 import com.scrumflow.domain.mapper.TaskMapper;
 import com.scrumflow.domain.model.Task;
 import com.scrumflow.domain.model.TaskHistory;
+import com.scrumflow.domain.model.User;
 import com.scrumflow.domain.service.utilities.FeatureUtilities;
 import com.scrumflow.domain.service.utilities.TaskUtilities;
 import com.scrumflow.domain.service.utilities.UserUtilities;
@@ -62,28 +63,18 @@ public class TaskService {
         var user = userUtilities.getUserById(task.getAssignedTo().getId());
 
         taskMapper.atualizaDeDto(taskRequestDTO, task);
-        if (!status.equals(taskRequestDTO.status())
-                && Boolean.TRUE.equals(user.getSendNotifications())) {
-            emailService.sendEmail(new EmailDTO(status, task.getStatus(), user, task.getName()));
-            createTaskHistory(task, status);
-        }
 
-        taskRepository.save(task);
+        updateTaskStatus(task, status, user);
     }
 
     public void updateTaskStatus(Long taskId, TaskStatus taskStatus) {
         var task = taskUtilities.getTask(taskId);
-        var status = task.getStatus();
+        var oldStatus = task.getStatus();
         var user = userUtilities.getUserById(task.getAssignedTo().getId());
 
         task.setStatus(taskStatus);
 
-        if (!status.equals(taskStatus) && Boolean.TRUE.equals(user.getSendNotifications())) {
-            emailService.sendEmail(new EmailDTO(status, task.getStatus(), user, task.getName()));
-        }
-
-        createTaskHistory(task, status);
-        taskRepository.save(task);
+        updateTaskStatus(task, oldStatus, user);
     }
 
     private void createTaskHistory(Task task, TaskStatus oldStatus) {
@@ -105,5 +96,16 @@ public class TaskService {
             throw new NotFoundException(String.format("Task %s não encontrada", taskId));
         return taskMapper.taskHistoryToTaskHistoryResponseDTO(
                 taskUtilities.getTaskHistoryByTask(taskId));
+    }
+
+    public void updateTaskStatus(Task task, TaskStatus oldStatus, User user) {
+        if (!oldStatus.equals(task.getStatus())) {
+            createTaskHistory(task, oldStatus);
+            taskRepository.save(task);
+
+            if (Boolean.TRUE.equals(user.getSendNotifications())) {
+                emailService.sendEmail(new EmailDTO(oldStatus, task.getStatus(), user, task.getName()));
+            }
+        }
     }
 }
