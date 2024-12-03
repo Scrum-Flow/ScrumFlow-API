@@ -37,6 +37,9 @@ public class TeamService {
         Team team = teamUtilities.getTeam(id);
 
         teamUtilities.validateDTOFields(team, teamRequestDTO);
+        
+        team.getUsers().clear();
+        
         teamMapper.updateByDto(teamRequestDTO, team);
 
         return teamMapper.entityToDto(teamRepository.save(team));
