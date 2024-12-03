@@ -1,7 +1,10 @@
 package com.scrumflow.domain.service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import com.scrumflow.domain.service.utilities.ProjectUtilities;
 import org.springframework.stereotype.Service;
 
 import com.scrumflow.application.dto.request.TeamRequestDTO;
@@ -24,7 +27,8 @@ public class TeamService {
     private final TeamMapper teamMapper = Mappers.getMapper(TeamMapper.class);
     private final TeamUtilities teamUtilities;
     private final UserUtilities userUtilities;
-
+    private final ProjectUtilities projectUtilities;
+    
     public TeamResponseDTO createTeam(TeamRequestDTO teamRequestDTO) {
         final Team team = teamMapper.dtoToEntity(teamRequestDTO);
 
@@ -37,9 +41,15 @@ public class TeamService {
         Team team = teamUtilities.getTeam(id);
 
         teamUtilities.validateDTOFields(team, teamRequestDTO);
-        
-        team.getUsers().clear();
-        
+
+        Set<User> users =
+                teamRequestDTO.teamMembers().stream()
+                        .map(userUtilities::getUserById) // Busca os usuários pelos IDs
+                        .collect(Collectors.toSet());
+
+        team.setProject( projectUtilities.getProject( teamRequestDTO.projectId() ) );
+        team.setUsers(users);
+
         teamMapper.updateByDto(teamRequestDTO, team);
 
         return teamMapper.entityToDto(teamRepository.save(team));
