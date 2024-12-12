@@ -33,7 +33,7 @@ dependencies {
 
     //Spring
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-validation' 
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -50,6 +50,10 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
+    // Testes
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testImplementation "org.springframework.security:spring-security-test"
+
     //DB
     implementation 'org.flywaydb:flyway-core'
     implementation group: 'org.flywaydb', name: 'flyway-mysql', version: '10.17.2'
@@ -58,6 +62,11 @@ dependencies {
 
 apply from: "spotless.gradle"
 
+
 tasks.named("compileJava") {
     finalizedBy spotlessApply
+}
+
+tasks.named("test") {
+    useJUnitPlatform()
 }

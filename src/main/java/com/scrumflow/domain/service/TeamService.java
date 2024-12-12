@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.scrumflow.domain.service.utilities.ProjectUtilities;
 import org.springframework.stereotype.Service;
 
 import com.scrumflow.application.dto.request.TeamRequestDTO;
@@ -13,6 +12,7 @@ import com.scrumflow.domain.exception.BadRequestException;
 import com.scrumflow.domain.mapper.TeamMapper;
 import com.scrumflow.domain.model.Team;
 import com.scrumflow.domain.model.User;
+import com.scrumflow.domain.service.utilities.ProjectUtilities;
 import com.scrumflow.domain.service.utilities.TeamUtilities;
 import com.scrumflow.domain.service.utilities.UserUtilities;
 import com.scrumflow.infrastructure.repository.TeamRepository;
@@ -28,7 +28,7 @@ public class TeamService {
     private final TeamUtilities teamUtilities;
     private final UserUtilities userUtilities;
     private final ProjectUtilities projectUtilities;
-    
+
     public TeamResponseDTO createTeam(TeamRequestDTO teamRequestDTO) {
         final Team team = teamMapper.dtoToEntity(teamRequestDTO);
 
@@ -47,7 +47,7 @@ public class TeamService {
                         .map(userUtilities::getUserById) // Busca os usuários pelos IDs
                         .collect(Collectors.toSet());
 
-        team.setProject( projectUtilities.getProject( teamRequestDTO.projectId() ) );
+        team.setProject(projectUtilities.getProject(teamRequestDTO.projectId()));
         team.setUsers(users);
 
         teamMapper.updateByDto(teamRequestDTO, team);
